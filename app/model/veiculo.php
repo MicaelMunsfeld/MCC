@@ -1,0 +1,173 @@
+<?php
+
+require_once 'baseModel.php'; // BaseModel gerencia a conexão com o banco de dados
+
+class Veiculo extends BaseModel {
+    public $idVeiculo;
+    public $ano;
+    public $quilometragem;
+    public $valor;
+    public $cambio;
+    public $tipo;
+    public $combustivel;
+    public $placa;
+    public $chassis;
+    public $ativo;
+    public $unicoDono;
+    public $idAntigoDono;
+    public $acessorios;
+    public $observacoes;
+    public $idMarca;
+    public $idModelo;
+    public $idCor;
+    public $imagem;
+
+    public function __construct() {
+        parent::__construct(); // Chama o construtor do BaseModel para inicializar a conexão com o banco
+    }
+
+    public static function find($id) {
+        try {
+            $pdo = Database::getConnection();
+            $stmt = $pdo->prepare("SELECT v.*, m.nome_marca AS marca, mo.nome_modelo AS modelo, c.nome_cor AS cor
+                                   FROM tbveiculo v
+                                   JOIN tbmarca m ON v.\"ID_marca\" = m.\"ID_marca\"
+                                   JOIN tbmodelo mo ON v.\"ID_modelo\" = mo.\"ID_modelo\"
+                                   JOIN tbcor c ON v.\"ID_cor\" = c.\"ID_cor\"
+                                   WHERE v.\"ID_veiculo\" = :id");
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('Erro ao buscar veículo: ' . $e->getMessage());
+            return null;
+        }
+    }
+
+    // Método para cadastrar o veículo no banco de dados
+    public function cadastrar() {
+        try {
+            $pdo = Database::getConnection();
+            $stmt = $pdo->prepare("INSERT INTO tbveiculo (
+                    ano, quilometragem, valor, cambio, tipo, combustivel, placa, chassis, ativo, unico_dono, 
+                    \"ID_antigo_dono\", acessorios, observacoes, \"ID_marca\", \"ID_modelo\", \"ID_cor\")
+                VALUES (:ano, :quilometragem, :valor, :cambio, :tipo, :combustivel, :placa, :chassis, :ativo, :unico_dono, 
+                    :ID_antigo_dono, :acessorios, :observacoes, :ID_marca, :ID_modelo, :ID_cor)");
+            
+            // Bind the parameters
+            $stmt->bindParam(':ano', $this->ano, PDO::PARAM_INT);
+            $stmt->bindParam(':quilometragem', $this->quilometragem, PDO::PARAM_INT);
+            $stmt->bindParam(':valor', $this->valor, PDO::PARAM_STR);
+            $stmt->bindParam(':cambio', $this->cambio, PDO::PARAM_STR);
+            $stmt->bindParam(':tipo', $this->tipo, PDO::PARAM_STR);
+            $stmt->bindParam(':combustivel', $this->combustivel, PDO::PARAM_STR);
+            $stmt->bindParam(':placa', $this->placa, PDO::PARAM_STR);
+            $stmt->bindParam(':chassis', $this->chassis, PDO::PARAM_STR);
+            $stmt->bindParam(':ativo', $this->ativo, PDO::PARAM_BOOL);
+            $stmt->bindParam(':unico_dono', $this->unicoDono, PDO::PARAM_BOOL);
+            $stmt->bindParam(':ID_antigo_dono', $this->idAntigoDono, PDO::PARAM_INT);
+            $stmt->bindParam(':acessorios', $this->acessorios, PDO::PARAM_STR);
+            $stmt->bindParam(':observacoes', $this->observacoes, PDO::PARAM_STR);
+            $stmt->bindParam(':ID_marca', $this->idMarca, PDO::PARAM_INT);
+            $stmt->bindParam(':ID_modelo', $this->idModelo, PDO::PARAM_INT);
+            $stmt->bindParam(':ID_cor', $this->idCor, PDO::PARAM_INT);
+            
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            error_log('Erro ao cadastrar veículo: ' . $e->getMessage());
+            return false;
+        }
+    }
+    
+    public function update($id) {
+        try {
+            $pdo = Database::getConnection();
+            $stmt = $pdo->prepare("UPDATE tbveiculo SET
+                ano = :ano,
+                quilometragem = :quilometragem,
+                valor = :valor,
+                cambio = :cambio,
+                tipo = :tipo,
+                combustivel = :combustivel,
+                placa = :placa,
+                chassis = :chassis,
+                ativo = :ativo,
+                unico_dono = :unico_dono,
+                \"ID_antigo_dono\" = :ID_antigo_dono,
+                acessorios = :acessorios,
+                observacoes = :observacoes,
+                \"ID_marca\" = :ID_marca,
+                \"ID_modelo\" = :ID_modelo,
+                \"ID_cor\" = :ID_cor
+                WHERE \"ID_veiculo\" = :id");
+
+            // Bind the parameters
+            $stmt->bindParam(':ano', $this->ano, PDO::PARAM_INT);
+            $stmt->bindParam(':quilometragem', $this->quilometragem, PDO::PARAM_INT);
+            $stmt->bindParam(':valor', $this->valor, PDO::PARAM_STR);
+            $stmt->bindParam(':cambio', $this->cambio, PDO::PARAM_STR);
+            $stmt->bindParam(':tipo', $this->tipo, PDO::PARAM_STR);
+            $stmt->bindParam(':combustivel', $this->combustivel, PDO::PARAM_STR);
+            $stmt->bindParam(':placa', $this->placa, PDO::PARAM_STR);
+            $stmt->bindParam(':chassis', $this->chassis, PDO::PARAM_STR);
+            $stmt->bindParam(':ativo', $this->ativo, PDO::PARAM_BOOL);
+            $stmt->bindParam(':unico_dono', $this->unicoDono, PDO::PARAM_BOOL);
+            $stmt->bindParam(':ID_antigo_dono', $this->idAntigoDono, PDO::PARAM_INT);
+            $stmt->bindParam(':acessorios', $this->acessorios, PDO::PARAM_STR);
+            $stmt->bindParam(':observacoes', $this->observacoes, PDO::PARAM_STR);
+            $stmt->bindParam(':ID_marca', $this->idMarca, PDO::PARAM_INT);
+            $stmt->bindParam(':ID_modelo', $this->idModelo, PDO::PARAM_INT);
+            $stmt->bindParam(':ID_cor', $this->idCor, PDO::PARAM_INT);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            error_log('Erro ao atualizar veículo: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    // Método para buscar todos os veículos
+    public static function getAll() {
+        try {
+            $pdo = Database::getConnection();
+            // Fazer um JOIN nas tabelas tbmarca e tbmodelo para buscar a marca e o modelo
+            $stmt = $pdo->query("SELECT v.*, m.nome_marca AS marca, mo.nome_modelo AS modelo
+                                 FROM tbveiculo v
+                                 JOIN tbmarca m ON v.\"ID_marca\" = m.\"ID_marca\"
+                                 JOIN tbmodelo mo ON v.\"ID_modelo\" = mo.\"ID_modelo\"
+                                 ORDER BY v.\"ID_veiculo\"");
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('Erro ao buscar veículos: ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    // Método para buscar um veículo pelo ID
+    public static function getById($id) {
+        try {
+            $pdo = Database::getConnection();
+            $stmt = $pdo->prepare("SELECT * FROM tbveiculo WHERE ID_veiculo = :id");
+            $stmt->execute(['id' => $id]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('Erro ao buscar veículo: ' . $e->getMessage());
+            return null;
+        }
+    }
+
+    // Método para deletar um veículo pelo ID
+    public static function deleteById($id) {
+        try {
+            $pdo = Database::getConnection();
+            $stmt = $pdo->prepare("DELETE FROM tbveiculo WHERE \"ID_veiculo\" = :id");
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            error_log('Erro ao excluir veículo: ' . $e->getMessage());
+            return false;
+        }
+    }
+    
+}
