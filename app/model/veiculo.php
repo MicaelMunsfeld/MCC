@@ -148,14 +148,22 @@ class Veiculo extends BaseModel {
     public static function getById($id) {
         try {
             $pdo = Database::getConnection();
-            $stmt = $pdo->prepare("SELECT * FROM tbveiculo WHERE ID_veiculo = :id");
-            $stmt->execute(['id' => $id]);
+            $stmt = $pdo->prepare("
+                SELECT v.\"ID_veiculo\", m.nome_marca, mo.nome_modelo, v.placa 
+                FROM tbveiculo v
+                JOIN tbmarca m ON v.\"ID_marca\" = m.\"ID_marca\"
+                JOIN tbmodelo mo ON v.\"ID_modelo\" = mo.\"ID_modelo\"
+                WHERE v.\"ID_veiculo\" = :id
+            ");
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             error_log('Erro ao buscar veículo: ' . $e->getMessage());
             return null;
         }
     }
+    
 
     // Método para deletar um veículo pelo ID
     public static function deleteById($id) {

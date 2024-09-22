@@ -20,14 +20,14 @@ class Usuario extends BaseModel {
     public static function getAll() {
         try {
             $pdo = Database::getConnection();
-            // Corrigir referência à coluna "ID_usuario" usando aspas duplas
-            $stmt = $pdo->query("SELECT \"ID_usuario\", CONCAT(nome, ' ', sobrenome) AS nome_completo FROM tbusuario ORDER BY nome");
-            return $stmt->fetchAll(PDO::FETCH_ASSOC); // Retorna todos os usuários
+            // Seleciona todas as colunas de tbusuario e adiciona a coluna concatenada 'nome_completo'
+            $stmt = $pdo->query("SELECT \"ID_usuario\", nome, sobrenome, telefone, sexo, email, cidade, tipo_usuario, CONCAT(nome, ' ', sobrenome) AS nome_completo FROM tbusuario ORDER BY nome");
+            return $stmt->fetchAll(PDO::FETCH_ASSOC); // Retorna todos os usuários com o nome completo
         } catch (PDOException $e) {
             error_log('Erro ao buscar usuários: ' . $e->getMessage());
             return [];
         }
-    }
+    }    
 
     // Função para buscar um usuário pelo ID
     public static function getById($id) {

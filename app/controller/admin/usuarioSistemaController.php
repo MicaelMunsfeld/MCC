@@ -35,7 +35,7 @@ class UsuarioSistemaController {
         $idUsuario = $_GET['id'] ?? null; // Pega o ID do usuário selecionado para login
         if ($idUsuario) {
             // Se o ID do usuário for fornecido, carrega a tela de login com o usuário selecionado
-            include __DIR__ . '/../../view/admin/usuarioSistemaLogin.php'; 
+            include __DIR__ . '/../../view/admin/usuarioSistemaCadastro.php'; 
         } else {
             // Caso contrário, redireciona para a lista de usuários
             header('Location: ?page=usuarioList');

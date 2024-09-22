@@ -31,7 +31,7 @@ $current_page = $_GET['page'] ?? 'home'; // Define 'home' como padrão se 'page'
             <a class="nav-link" href="?page=cor">Cores</a>
         </li>
         <li>
-            <a href="?page=ocorrencias" class="nav-link link-dark <?php echo ($current_page == 'ocorrencias') ? 'active' : ''; ?>">
+            <a href="?page=ocorrencia" class="nav-link link-dark <?php echo ($current_page == 'ocorrencias') ? 'active' : ''; ?>">
                 Ocorrências
             </a>
         </li>
