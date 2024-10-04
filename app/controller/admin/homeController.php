@@ -1,8 +1,10 @@
 <?php
+require_once __DIR__ . '/../../model/veiculo.php';
 
 class HomeController {
     public function index() {
-        // Ajuste o caminho para o correto utilizando __DIR__ para garantir o caminho absoluto
-        require __DIR__ . '/../../view/admin/home.php';  // Corrige o caminho para o arquivo home.php
+        // Buscar os veículos cadastrados
+        $veiculos = Veiculo::getAll(); // Função que traz os detalhes completos
+        include __DIR__ . '/../../view/admin/home.php'; // Inclui a view home com os cards
     }
 }

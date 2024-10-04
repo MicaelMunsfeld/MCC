@@ -15,23 +15,23 @@ $current_page = $_GET['page'] ?? 'home'; // Define 'home' como padrão se 'page'
             </a>
         </li>
         <li>
-            <a href="http://localhost/MCC/public/?page=veiculoList" class="nav-link <?php echo ($current_page == 'veiculoList') ? 'active' : ''; ?>">
+            <a href="?page=veiculoList" class="nav-link <?php echo ($current_page == 'veiculoList') ? 'active' : ''; ?>">
                 Veículos
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/MCC/public/?page=marca">
+            <a class="nav-link <?php echo ($current_page == 'marca') ? 'active' : ''; ?>" href="?page=marca">
                 <i class="fas fa-tags"></i> Marca
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="?page=modelo">Modelos</a> 
+            <a class="nav-link <?php echo ($current_page == 'modelo') ? 'active' : ''; ?>" href="?page=modelo">Modelos</a> 
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="?page=cor">Cores</a>
+            <a class="nav-link <?php echo ($current_page == 'cor') ? 'active' : ''; ?>" href="?page=cor">Cores</a>
         </li>
         <li>
-            <a href="?page=ocorrencia" class="nav-link link-dark <?php echo ($current_page == 'ocorrencias') ? 'active' : ''; ?>">
+            <a href="?page=ocorrencia" class="nav-link link-dark <?php echo ($current_page == 'ocorrencia') ? 'active' : ''; ?>">
                 Ocorrências
             </a>
         </li>

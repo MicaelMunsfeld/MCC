@@ -21,6 +21,19 @@ body.dark-mode {
     color: #fff;
 }
 
+.nav-link.active {
+    color: #000; /* Define a cor do texto como preta ou qualquer outra cor que desejar */
+    background-color: #e9ecef; /* Mantém o fundo da cor ativa */
+}
+
+.nav-link.active:hover {
+    color: #000; /* Cor do texto ao passar o mouse */
+}
+
+.nav-link {
+    color: #000000;
+}
+
 #overlay {
     position: fixed;
     display: none;

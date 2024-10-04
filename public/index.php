@@ -10,6 +10,7 @@ require_once __DIR__ . '/../app/controller/admin/modeloController.php';
 require_once __DIR__ . '/../app/controller/admin/corController.php';
 require_once __DIR__ . '/../app/controller/admin/movimentacaoController.php';
 require_once __DIR__ . '/../app/controller/admin/ocorrenciaController.php';
+require_once __DIR__ . '/../app/controller/site/siteController.php';
 
 // Roteamento simples para decidir qual controlador chamar
 $page = isset($_GET['page']) ? $_GET['page'] : 'home';
@@ -216,8 +217,8 @@ switch ($page) {
         break;
     case 'home':
     default:
-        $controller = new HomeController();
-        $controller->index(); 
+        $controller = new SiteController();
+        $controller->home(); 
         break;
 }
 ?>

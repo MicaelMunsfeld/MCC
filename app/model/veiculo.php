@@ -131,18 +131,24 @@ class Veiculo extends BaseModel {
     public static function getAll() {
         try {
             $pdo = Database::getConnection();
-            // Fazer um JOIN nas tabelas tbmarca e tbmodelo para buscar a marca e o modelo
-            $stmt = $pdo->query("SELECT v.*, m.nome_marca AS marca, mo.nome_modelo AS modelo
+            // Buscar o primeiro registro de imagem associada ao veículo
+            $stmt = $pdo->query("SELECT v.*, m.nome_marca AS marca, mo.nome_modelo AS modelo, img.imagem
                                  FROM tbveiculo v
                                  JOIN tbmarca m ON v.\"ID_marca\" = m.\"ID_marca\"
                                  JOIN tbmodelo mo ON v.\"ID_modelo\" = mo.\"ID_modelo\"
+                                 LEFT JOIN (
+                                     SELECT DISTINCT ON (\"ID_veiculo\") \"ID_veiculo\", imagem
+                                     FROM tbveiculoimagem
+                                     ORDER BY \"ID_veiculo\", \"id_imagem\"
+                                 ) img ON v.\"ID_veiculo\" = img.\"ID_veiculo\"
+                                 GROUP BY v.\"ID_veiculo\", m.nome_marca, mo.nome_modelo, img.imagem
                                  ORDER BY v.\"ID_veiculo\"");
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             error_log('Erro ao buscar veículos: ' . $e->getMessage());
             return [];
         }
-    }
+    }    
 
     // Método para buscar um veículo pelo ID
     public static function getById($id) {
