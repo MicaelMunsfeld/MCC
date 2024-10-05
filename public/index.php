@@ -216,6 +216,10 @@ switch ($page) {
         }
         break;
     case 'home':
+    case 'sobre':
+        $controller = new SiteController();
+        $controller->sobre(); 
+        break;
     default:
         $controller = new SiteController();
         $controller->home(); 

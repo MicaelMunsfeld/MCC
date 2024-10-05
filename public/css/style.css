@@ -50,3 +50,31 @@ body.dark-mode {
 .no-click {
     pointer-events: none; /* Desabilita cliques */
 }
+
+/* Ajuste para os cards terem sempre o mesmo tamanho */
+.card {
+    width: 100%; /* Faz com que o card use toda a largura disponível dentro de sua coluna */
+    min-height: 450px; /* Define uma altura mínima para os cards */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Ajuste para as imagens dos veículos terem sempre o mesmo tamanho */
+.card img {
+    width: 100%; /* A imagem ocupa toda a largura do card */
+    height: 250px; /* Altura fixa para todas as imagens */
+    object-fit: cover; /* Faz com que a imagem se ajuste ao tamanho sem distorcer */
+    object-position: center; /* Centraliza a imagem dentro do card */
+}
+
+.card-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.h-80 {
+    height: 80% !important;
+}

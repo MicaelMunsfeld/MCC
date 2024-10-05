@@ -1,9 +1,13 @@
 <?php
 
+require_once __DIR__ . '/../site/homeControllerSite.php';
+require_once __DIR__ . '/../site/sobreControllerSite.php';
+
 class SiteController {
 
     public function home() {
-        include __DIR__ . '/../../view/site/home.php';
+        $oController = new HomeControllerSite();
+        $oController->index();
     }
 
     public function contato() {
@@ -15,7 +19,8 @@ class SiteController {
     }
 
     public function sobre() {
-        include __DIR__ . '/../../view/site/sobre.php';
+        $oController = new sobreControllerSite();
+        $oController->index();
     }
 
     public function politica() {
