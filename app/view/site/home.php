@@ -3,7 +3,6 @@
 include __DIR__ . '/../site/header.php';
 ?>
 <link href="/MCC/public/css/style.css" rel="stylesheet">
-<!-- Banner grande abaixo do header -->
 <div class="container-fluid p-0">
     <div class="banner">
         <img src="/MCC/uploads/banner.png" class="img-fluid w-100 h-80" alt="Banner Sálvio Automóveis">
@@ -11,10 +10,11 @@ include __DIR__ . '/../site/header.php';
 </div>
 
 <div class="container mt-5 mb-5">
-    <h1>Bem-vindo à Sálvio Automóveis</h1>
-    <p>A Sálvio Automóveis é referência no mercado de veículos na região. Conheça nossa história, missão, visão e valores.</p>
-
-    <h2>Veículos Disponíveis</h2>
+    <div class="text-center p-5">
+        <h1>Bem-vindo à Sálvio Automóveis</h1>
+        <p>A Sálvio Automóveis é referência no mercado de veículos na região. Conheça nossa história, missão, visão e valores.</p>
+    </div>
+    <h2 class="pb-3">Veículos Disponíveis</h2>
 
     <?php
     // Verifique se a variável $veiculos está definida e não está vazia
@@ -55,7 +55,28 @@ include __DIR__ . '/../site/header.php';
     } else {
         echo "<p>Nenhum veículo disponível no momento.</p>";
     }
-    include __DIR__ . '/../site/footer.php';
     ?>
+    <hr class="my-5">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Sobre Nós</h2>
+            <p>
+                A Sálvio Automóveis é uma empresa com mais de 20 anos de experiência no mercado automotivo, localizada em Imbuia, Santa Catarina.
+                Especializada na venda de veículos novos e usados, a Sálvio Automóveis sempre se destacou pela qualidade no atendimento e pelo compromisso
+                com a satisfação de seus clientes.
+            </p>
+            <p>
+                Conheça mais sobre nossa história, missão, visão e valores, e descubra como nos tornamos referência no mercado regional de veículos.
+            </p>
+            <a href="?page=sobre" class="btn btn-outline-primary">Saiba Mais</a>
+        </div>
+        <div class="col-md-6">
+            <img src="/MCC/uploads/sobreHome.png" class="img-fluid" alt="Sobre Sálvio Automóveis">
+        </div>
+    </div>
 
 </div>
+
+<?php
+        include __DIR__ . '/../site/footer.php';
+?>

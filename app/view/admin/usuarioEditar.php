@@ -65,4 +65,4 @@
 </div>
 
 <?php include $_SERVER['DOCUMENT_ROOT'] . '/MCC/app/view/layout/footer.php'; ?>
-<script src="/MCC/public/js/usuarioCadastro.js"></script> <!-- Incluindo o JavaScript separado para API -->
+<script src="/MCC/public/js/usuarioCadastro.js"></script>

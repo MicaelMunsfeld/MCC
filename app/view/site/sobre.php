@@ -2,7 +2,7 @@
 // Inclua o header com o Bootstrap e a barra de navegação
 include __DIR__ . '/../site/header.php';
 ?>
-
+<link href="/MCC/public/css/style.css" rel="stylesheet">
 <div class="container mt-5 mb-5">
     <div class="row">
         <div class="col-md-12 text-center">
@@ -17,7 +17,7 @@ include __DIR__ . '/../site/header.php';
             <p>A Sálvio Automóveis foi fundada em [ano] na cidade de [cidade], com o objetivo de proporcionar a melhor experiência de compra e venda de veículos para a população da região. Com mais de [x] anos de atuação, nossa empresa se consolidou como uma referência no mercado automotivo, sempre prezando pela qualidade dos veículos e pela satisfação de nossos clientes.</p>
         </div>
         <div class="col-md-6">
-            <img src="/MCC/public/images/nossa-historia.jpg" class="img-fluid" alt="Nossa História">
+            <img src="/MCC/uploads/sobre1.png" class="img-fluid" alt="Nossa História">
         </div>
     </div>
 
@@ -25,7 +25,7 @@ include __DIR__ . '/../site/header.php';
 
     <div class="row">
         <div class="col-md-6">
-            <img src="/MCC/public/images/missao.jpg" class="img-fluid" alt="Nossa Missão">
+            <img src="/MCC/uploads/sobre2.png" class="img-fluid" alt="Nossa Missão">
         </div>
         <div class="col-md-6">
             <h2 class="mb-3">Missão</h2>
@@ -41,7 +41,7 @@ include __DIR__ . '/../site/header.php';
             <p>Ser a principal referência em compra e venda de veículos na região, reconhecida pela excelência no atendimento, pela qualidade dos veículos oferecidos e por nossa contribuição para o desenvolvimento da comunidade local.</p>
         </div>
         <div class="col-md-6">
-            <img src="/MCC/public/images/visao.jpg" class="img-fluid" alt="Nossa Visão">
+            <img src="/MCC/uploads/sobre3.png" class="img-fluid" alt="Nossa Visão">
         </div>
     </div>
 
@@ -49,7 +49,7 @@ include __DIR__ . '/../site/header.php';
 
     <div class="row">
         <div class="col-md-6">
-            <img src="/MCC/public/images/valores.jpg" class="img-fluid" alt="Nossos Valores">
+            <img src="/MCC/uploads/sobre4.png" class="img-fluid" alt="Nossos Valores">
         </div>
         <div class="col-md-6">
             <h2 class="mb-3">Valores</h2>

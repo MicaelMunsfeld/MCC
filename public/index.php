@@ -215,11 +215,19 @@ switch ($page) {
                 break;
         }
         break;
-    case 'home':
+    case 'veiculos':
+        $controller = new SiteController();
+        $controller->veiculos(); 
+        break;
     case 'sobre':
         $controller = new SiteController();
         $controller->sobre(); 
         break;
+    case 'contato':
+        $controller = new SiteController();
+        $controller->contato(); 
+        break;
+    case 'home':
     default:
         $controller = new SiteController();
         $controller->home(); 

@@ -2,6 +2,8 @@
 
 require_once __DIR__ . '/../site/homeControllerSite.php';
 require_once __DIR__ . '/../site/sobreControllerSite.php';
+require_once __DIR__ . '/../site/contatoControllerSite.php';
+require_once __DIR__ . '/../site/veiculoControllerSite.php';
 
 class SiteController {
 
@@ -11,11 +13,13 @@ class SiteController {
     }
 
     public function contato() {
-        include __DIR__ . '/../../view/site/contato.php';
+        $oController = new contatoControllerSite();
+        $oController->index();
     }
 
     public function veiculos() {
-        include __DIR__ . '/../../view/site/veiculos.php';
+        $oController = new veiculoControllerSite();
+        $oController->index();
     }
 
     public function sobre() {

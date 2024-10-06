@@ -73,6 +73,7 @@ body.dark-mode {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    height: 290px;
 }
 
 .h-80 {
