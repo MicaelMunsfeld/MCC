@@ -9,6 +9,7 @@ $current_page = $_GET['page'] ?? 'home'; // Define 'home' como padrão se 'page'
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <div class="container-fluid">
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
@@ -24,7 +25,34 @@ $current_page = $_GET['page'] ?? 'home'; // Define 'home' como padrão se 'page'
         </ul>
 
         <div class="col-md-3 text-end">
-            <a href="?page=login" class="btn btn-outline-primary me-2">Login</a>
+            <!--<a href="?page=login" class="btn btn-outline-primary me-2">Login</a>-->
+            <a href="#" class="btn btn-outline-primary me-2" data-toggle="modal" data-target="#loginModal">Login</a>
         </div>
     </header>
+</div>
+<!-- Modal de Login -->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="loginModalLabel">Login</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="index.php?page=login">
+          <div class="form-group">
+            <label for="nomeCompleto">Usuário</label>
+            <input type="text" class="form-control" id="nomeCompleto" name="nomeCompleto" required>
+          </div>
+          <div class="form-group">
+            <label for="senha">Senha</label>
+            <input type="password" class="form-control" id="senha" name="senha" required minlength="5">
+          </div>
+          <button type="submit" class="btn btn-primary">Entrar</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>

@@ -51,7 +51,7 @@ class ImagemVeiculo extends BaseModel {
             $pdo = Database::getConnection();
             $stmt = $pdo->prepare("
                 SELECT * FROM tbveiculoimagem 
-                WHERE ID_veiculo = :idVeiculo
+                WHERE \"ID_veiculo\" = :idVeiculo
             ");
             $stmt->bindParam(':idVeiculo', $idVeiculo, PDO::PARAM_INT);
             $stmt->execute();

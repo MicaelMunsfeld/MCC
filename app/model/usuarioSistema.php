@@ -26,5 +26,20 @@ class UsuarioSistema extends BaseModel {
             return false;
         }
     }
+
+    public static function verificarSenha($idUsuario, $senha) {
+        try {
+            $pdo = Database::getConnection();
+            $stmt = $pdo->prepare("SELECT senha FROM tbusuariosistema WHERE \"ID_usuario\" = :idUsuario");
+            $stmt->bindParam(':idUsuario', $idUsuario);
+            $stmt->execute();
+            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+            return password_verify($senha, $resultado['senha']);
+        } catch (PDOException $e) {
+            error_log('Erro ao verificar senha: ' . $e->getMessage());
+            return false;
+        }
+    }    
+
 }
-?>

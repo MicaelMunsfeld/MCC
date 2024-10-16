@@ -87,5 +87,19 @@ class Usuario extends BaseModel {
         $stmt = $pdo->prepare("DELETE FROM tbusuario WHERE \"ID_usuario\" = :id");
         $stmt->execute(['id' => $id]);
     }
+
+    public static function findByNomeSobrenome($nome, $sobrenome) {
+        try {
+            $pdo = Database::getConnection();
+            $stmt = $pdo->prepare("SELECT * FROM tbusuario WHERE nome = :nome AND sobrenome = :sobrenome");
+            $stmt->bindParam(':nome', $nome);
+            $stmt->bindParam(':sobrenome', $sobrenome);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('Erro ao buscar usuário: ' . $e->getMessage());
+            return null;
+        }
+    }    
+
 }
-?>

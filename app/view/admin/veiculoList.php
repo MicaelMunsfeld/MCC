@@ -1,12 +1,23 @@
-<!-- veiculoList.php -->
 <?php 
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
     include $_SERVER['DOCUMENT_ROOT'] . '/MCC/app/view/layout/header.php'; 
+
     $isModal = isset($_GET['modal']) && $_GET['modal'] === 'true';
 ?>
 
 <div class="main-content">
     <div class="container mt-5">
         <h2 class="mb-4">Consulta de Veículos</h2>
+
+        <!-- Exibição do Alerta de Sucesso ou Erro -->
+        <?php if (isset($_SESSION['status'])): ?>
+            <div class="alert alert-<?= ($_SESSION['status'] === 'sucesso') ? 'success' : 'danger'; ?> alert-dismissible fade show" role="alert">
+                <?= $_SESSION['mensagem']; ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
 
         <!-- Botão de Incluir que direciona para a tela de cadastro -->
         <div class="mb-3 d-flex justify-content-start">
@@ -21,7 +32,7 @@
                     <th>Ano</th>
                     <th>Placa</th>
                     <th>Valor</th>
-                    <th>Ações</th> <!-- Nova coluna para ações -->
+                    <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
@@ -51,7 +62,11 @@
 
 <?php 
     include $_SERVER['DOCUMENT_ROOT'] . '/MCC/app/view/layout/footer.php';
-    if (!$isModal){
+    if (!$isModal) {
         include __DIR__ . '/../layout/footer.php'; 
     }
+
+    // Limpar a sessão após exibir o alerta
+    unset($_SESSION['status']);
+    unset($_SESSION['mensagem']);
 ?>

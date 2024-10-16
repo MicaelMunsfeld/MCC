@@ -1,6 +1,6 @@
 <?php
 // Captura a página atual da URL
-$current_page = $_GET['page'] ?? 'home'; // Define 'home' como padrão se 'page' não estiver definido
+$current_page = $_GET['page'] ?? 'inicio'; // Define 'inicio' como padrão se 'page' não estiver definido
 ?>
 
 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 250px; height: 100vh; position: fixed;">
@@ -10,8 +10,8 @@ $current_page = $_GET['page'] ?? 'home'; // Define 'home' como padrão se 'page'
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">
-            <a href="?page=home" class="nav-link <?php echo ($current_page == 'home') ? 'active' : ''; ?>" aria-current="page">
-                Home
+            <a href="?page=inicio" class="nav-link <?php echo ($current_page == 'inicio') ? 'active' : ''; ?>" aria-current="page">
+                Página Inicial
             </a>
         </li>
         <li>
@@ -47,7 +47,12 @@ $current_page = $_GET['page'] ?? 'home'; // Define 'home' como padrão se 'page'
             </a>
         </li>
         <li>
-            <a href="?page=contato" class="nav-link link-dark <?php echo ($current_page == 'contato') ? 'active' : ''; ?>">
+            <a href="?page=sobreEmpresa" class="nav-link link-dark <?php echo ($current_page == 'sobreEmpresa') ? 'active' : ''; ?>">
+                Sobre
+            </a>
+        </li>
+        <li>
+            <a href="?page=contatos" class="nav-link link-dark <?php echo ($current_page == 'contatos') ? 'active' : ''; ?>">
                 Contato
             </a>
         </li>
@@ -59,11 +64,7 @@ $current_page = $_GET['page'] ?? 'home'; // Define 'home' como padrão se 'page'
             <strong>Usuário</strong>
         </a>
         <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-            <li><a class="dropdown-item" href="#">Configurações</a></li>
-            <li><a class="dropdown-item" href="#">Perfil</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#" id="toggle-dark-mode">Modo Noturno</a></li>
-            <li><a class="dropdown-item" href="#">Sair</a></li>
+            <li><a class="dropdown-item" href="?page=home">Sair</a></li>
         </ul>
     </div>
 </div>

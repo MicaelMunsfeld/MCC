@@ -3,13 +3,14 @@
 <div class="container mt-5 mb-5">
     <h2 class="mb-4">Editar Veículo</h2>
     
-    <form action="?page=veiculo&action=atualizar&id=<?= $veiculo['ID_veiculo'] ?>" method="POST" enctype="multipart/form-data">
+    <form method="POST" action="?page=veiculo&action=atualizar&id=<?= $veiculo['ID_veiculo']; ?>" enctype="multipart/form-data">
         <fieldset class="p-4 border rounded">
             <legend class="fw-bold text-primary">Detalhes do Veículo</legend>
             <div class="row">
                 <!-- Primeira Coluna -->
                 <div class="col-md-6">
                     <div class="mb-3">
+                        <input type="hidden" name="idVeiculo" value="<?= $veiculo['ID_veiculo']; ?>">
                         <label for="imagens" class="form-label">Imagens do Veículo</label>
                         <!-- Exibe imagens já cadastradas -->
                         <?php if (!empty($imagens)): ?>
@@ -22,7 +23,7 @@
                             </div>
                         <?php endif; ?>
                         <!-- Input para novas imagens -->
-                        <input type="file" class="form-control" id="imagens" name="imagens[]" multiple>
+                        <input type="file" class="form-control" id="imagem" name="imagem[]" multiple>
                     </div>
                     <div class="mb-3">
                         <label for="tipo" class="form-label">Tipo <span class="text-danger">*</span></label>
@@ -37,7 +38,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="marca" class="form-label">Marca</label>
-                        <select class="form-control" id="marca" name="idMarca" required>
+                        <select class="form-control" id="idMarca" name="idMarca" required>
                             <option value="">Selecione a Marca</option>
                             <?php foreach ($marcas as $marca): ?>
                                 <option value="<?= htmlspecialchars($marca['ID_marca']) ?>" <?= $marca['ID_marca'] == $veiculo['ID_marca'] ? 'selected' : '' ?>>
@@ -48,7 +49,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="modelo" class="form-label">Modelo</label>
-                        <select class="form-control" id="modelo" name="idModelo" required>
+                        <select class="form-control" id="idModelo" name="idModelo" required>
                             <option value="">Selecione o Modelo</option>
                             <?php foreach ($modelos as $modelo): ?>
                                 <option value="<?= htmlspecialchars($modelo['ID_modelo']) ?>" <?= $modelo['ID_modelo'] == $veiculo['ID_modelo'] ? 'selected' : '' ?>>

@@ -11,6 +11,10 @@ require_once __DIR__ . '/../app/controller/admin/corController.php';
 require_once __DIR__ . '/../app/controller/admin/movimentacaoController.php';
 require_once __DIR__ . '/../app/controller/admin/ocorrenciaController.php';
 require_once __DIR__ . '/../app/controller/site/siteController.php';
+require_once __DIR__ . '/../app/controller/admin/loginController.php';
+require_once __DIR__ . '/../app/controller/site/contatoControllerSite.php';
+require_once __DIR__ . '/../app/controller/admin/contatoController.php';
+require_once __DIR__ . '/../app/controller/admin/SobreController.php';
 
 // Roteamento simples para decidir qual controlador chamar
 $page = isset($_GET['page']) ? $_GET['page'] : 'home';
@@ -113,8 +117,8 @@ switch ($page) {
         break;
 
     case 'login': // Adiciona o caso para login usando o UsuarioSistemaController
-        $controller = new UsuarioSistemaController();
-        $controller->index(); // Chama o método index para exibir a tela de login
+        $controller = new LoginController();
+        $controller->login(); // Chama o método index para exibir a tela de login
         break;
 
     case 'marca': // Adiciona as rotas para marcas
@@ -215,6 +219,21 @@ switch ($page) {
                 break;
         }
         break;
+    case 'sobreEmpresa':
+        $controller = new SobreController();
+        switch ($action) {
+            case 'salvar':
+                $controller->salvar();
+                break;
+            default:
+                $controller->index();
+                break;
+        }
+        break;
+    case 'inicio':
+        $controller = new HomeController();
+        $controller->index(); 
+        break;
     case 'veiculos':
         $controller = new SiteController();
         $controller->veiculos(); 
@@ -223,14 +242,38 @@ switch ($page) {
         $controller = new SiteController();
         $controller->sobre(); 
         break;
-    case 'contato':
+    case 'politicaPrivacidade':
         $controller = new SiteController();
-        $controller->contato(); 
+        $controller->politica(); 
         break;
+    case 'contato':
+        $controller = new ContatoControllerSite();
+        switch ($action) {
+            case 'salvar':
+                $controller->salvarContato();
+                break;
+            case 'visualizar':
+                $controller->visualizar();
+                break;
+            default:
+                $controller->index();
+                break;
+        }
+        break;
+    case 'contatos':
+        $controller = new ContatoController();
+        switch ($action) {
+            case 'excluir':
+                $controller->excluir();
+                break;
+            default:
+                $controller->index();
+                break;
+        }
+        break;        
     case 'home':
     default:
         $controller = new SiteController();
         $controller->home(); 
         break;
 }
-?>

@@ -37,10 +37,18 @@ class VeiculoController {
     }    
 
     public function alterar() {
-        $id = $_GET['id'] ?? null;
+        $id = $_GET['id'] ?? null; // Verifica se o ID foi fornecido na URL
         if ($id) {
             // Busca o veículo pelo ID
             $veiculo = Veiculo::find($id);
+    
+            // Verifica se o veículo foi encontrado
+            if (!$veiculo) {
+                $_SESSION['status'] = 'erro';
+                $_SESSION['mensagem'] = 'Veículo não encontrado.';
+                header('Location: ?page=veiculoList');
+                exit;
+            }
     
             // Carrega as listas de marcas, modelos, cores, tipos e usuários
             $marcas = Marca::listar();
@@ -48,26 +56,32 @@ class VeiculoController {
             $cores = Cor::getAll();
             $usuarios = Usuario::getAll(); // Carrega os usuários para "Antigo Dono"
             $tipos = array_unique(array_column($marcas, 'tipo')); // Gera a lista de tipos a partir das marcas
-
+    
             // Carrega as imagens relacionadas ao veículo
             $imagens = ImagemVeiculo::buscarPorVeiculo($veiculo['ID_veiculo']);
-
     
             // Verifica se o veículo foi encontrado e carrega a view de edição
             if ($veiculo) {
                 include __DIR__ . '/../../view/admin/veiculoEditar.php'; // View de edição do veículo
             } else {
-                header('Location: ?page=veiculoList&status=erro');
+                $_SESSION['status'] = 'erro';
+                $_SESSION['mensagem'] = 'Erro ao carregar dados do veículo.';
+                header('Location: ?page=veiculoList');
+                exit;
             }
         } else {
-            header('Location: ?page=veiculoList&status=erro');
+            $_SESSION['status'] = 'erro';
+            $_SESSION['mensagem'] = 'ID do veículo não fornecido.';
+            header('Location: ?page=veiculoList');
+            exit;
         }
-    }
+    }    
     
     public function atualizar() {
         $id = $_GET['id'] ?? null;
         if ($id) {
-            // Preenche os dados do veículo a partir do formulário
+            // Capturar dados do formulário
+            $this->veiculo->idVeiculo = $id; // Certifique-se de que está capturando o ID corretamente
             $this->veiculo->ano = $_POST['ano'] ?? null;
             $this->veiculo->tipo = $_POST['tipo'] ?? null;
             $this->veiculo->idMarca = $_POST['idMarca'] ?? null;
@@ -85,33 +99,31 @@ class VeiculoController {
             $this->veiculo->acessorios = $_POST['acessorios'] ?? null;
             $this->veiculo->observacoes = $_POST['observacoes'] ?? null;
     
-            // Tratamento de imagens: verificar se imagens foram enviadas
-            if (!empty($_FILES['imagens']['name'][0])) {
-                $imagens = $_FILES['imagens'];
-                
+            // Capturar imagens se foram enviadas
+            if (!empty($_FILES['imagem']['name'][0])) {
+                $imagens = $_FILES['imagem'];
                 for ($i = 0; $i < count($imagens['name']); $i++) {
                     $nomeImagem = $imagens['name'][$i];
                     $imagemTemp = $imagens['tmp_name'][$i];
-                    
-                    // Lê o conteúdo da imagem
                     $conteudoImagem = file_get_contents($imagemTemp);
-                    
-                    // Salva a imagem associada ao veículo
                     ImagemVeiculo::salvarImagem($id, $conteudoImagem, $nomeImagem);
                 }
             }
     
-            // Atualiza o veículo no banco de dados
+            // Atualizar veículo
             if ($this->veiculo->update($id)) {
-                header('Location: ?page=veiculoList&status=sucesso');
+                $_SESSION['status'] = 'sucesso';
+                $_SESSION['mensagem'] = 'Veículo atualizado com sucesso!';
             } else {
-                header('Location: ?page=veiculo&status=erroAtualizacao');
+                $_SESSION['status'] = 'erro';
+                $_SESSION['mensagem'] = 'Erro ao atualizar o veículo.';
             }
+            header('Location: ?page=veiculoList');
         } else {
-            header('Location: ?page=veiculo&status=erroAtualizacao');
+            header('Location: ?page=veiculoList&status=erro');
         }
     }
-
+    
     // Função para carregar a tela de cadastro de veículos
     public function cadastro() {
         // Carrega as listas de tipos, marcas, modelos e cores para preencher os selects na view
@@ -123,10 +135,9 @@ class VeiculoController {
         include __DIR__ . '/../../view/admin/veiculoCadastro.php'; // Inclui a view de cadastro
     }
 
-    // Função para salvar os dados do veículo
     public function salvar() {
         $id = $_POST['id'] ?? null; // Verifica se o ID existe (para edição)
-    
+        
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Atribuição dos dados do formulário aos atributos do objeto
             $this->veiculo->ano = $_POST['ano'];
@@ -147,39 +158,45 @@ class VeiculoController {
             $this->veiculo->idCor = $_POST['idCor'];
     
             if ($id) {
-                // Atualizar o veículo
                 if ($this->veiculo->update($id)) {
-                    header('Location: ?page=veiculoList&status=sucesso');
-                    exit;
+                    $_SESSION['status'] = 'sucesso';
+                    $_SESSION['mensagem'] = 'Veículo atualizado com sucesso!';
                 } else {
-                    header('Location: ?page=veiculo&status=erroCadastro');
-                    exit;
+                    $_SESSION['status'] = 'erro';
+                    $_SESSION['mensagem'] = 'Erro ao atualizar o veículo.';
                 }
             } else {
-                // Inserir novo veículo
                 if ($this->veiculo->cadastrar()) {
-                    header('Location: ?page=veiculoList&status=sucesso');
-                    exit;
+                    $_SESSION['status'] = 'sucesso';
+                    $_SESSION['mensagem'] = 'Veículo cadastrado com sucesso!';
                 } else {
-                    header('Location: ?page=veiculo&status=erroCadastro');
-                    exit;
+                    $_SESSION['status'] = 'erro';
+                    $_SESSION['mensagem'] = 'Erro ao cadastrar o veículo.';
                 }
             }
+            include __DIR__ . '/../../view/admin/veiculoList.php';
         } else {
-            header('Location: ?page=veiculo');
+            header('Location: ?page=veiculoList');
             exit;
         }
     }
-
-    // Função para excluir um veículo
-    public function excluir() {
-        $id = $_GET['id'] ?? null;
-        if ($id && Veiculo::deleteById($id)) {
-            header('Location: ?page=veiculoList&status=excluido');
-        } else {
-            header('Location: ?page=veiculoList&status=erro');
-        }
-    }
     
+
+    public function excluir() {
+        session_start(); // Inicie a sessão para usar o $_SESSION
+        $id = $_GET['id'] ?? null;
+        
+        if ($id && Veiculo::deleteById($id)) {
+            $_SESSION['status'] = 'sucesso'; // Armazena o status de sucesso na sessão
+            $_SESSION['mensagem'] = 'Veículo excluído com sucesso!';
+        } else {
+            $_SESSION['status'] = 'erro'; // Armazena o status de erro na sessão
+            $_SESSION['mensagem'] = 'Erro ao tentar excluir o veículo.';
+        }
+        
+        // Redireciona para a listagem de veículos
+        header('Location: ?page=veiculoList');
+        exit;
+    }    
 
 }

@@ -5,11 +5,11 @@ include __DIR__ . '/../site/header.php';
 <link href="/MCC/public/css/style.css" rel="stylesheet">
 <div class="container-fluid p-0">
     <div class="banner">
-        <img src="/MCC/uploads/banner.png" class="img-fluid w-100 h-80" alt="Banner Sálvio Automóveis">
+        <img src="/MCC/uploads/banner.png" class="img-fluid w-100 h-50" alt="Banner Sálvio Automóveis">
     </div>
 </div>
 
-<div class="container mt-5 mb-5">
+<div class="container">
     <div class="text-center p-5">
         <h1>Bem-vindo à Sálvio Automóveis</h1>
         <p>A Sálvio Automóveis é referência no mercado de veículos na região. Conheça nossa história, missão, visão e valores.</p>
@@ -56,8 +56,7 @@ include __DIR__ . '/../site/header.php';
         echo "<p>Nenhum veículo disponível no momento.</p>";
     }
     ?>
-    <hr class="my-5">
-    <div class="row">
+    <div class="row mt-5">
         <div class="col-md-6">
             <h2>Sobre Nós</h2>
             <p>
@@ -71,10 +70,9 @@ include __DIR__ . '/../site/header.php';
             <a href="?page=sobre" class="btn btn-outline-primary">Saiba Mais</a>
         </div>
         <div class="col-md-6">
-            <img src="/MCC/uploads/sobreHome.png" class="img-fluid" alt="Sobre Sálvio Automóveis">
+            <img src="/MCC/uploads/sobre.jpg" class="img-fluid h-70 w-100" alt="Sobre Sálvio Automóveis">
         </div>
     </div>
-
 </div>
 
 <?php

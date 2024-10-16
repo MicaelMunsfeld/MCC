@@ -100,8 +100,8 @@ class Veiculo extends BaseModel {
                 \"ID_modelo\" = :ID_modelo,
                 \"ID_cor\" = :ID_cor
                 WHERE \"ID_veiculo\" = :id");
-
-            // Bind the parameters
+    
+            // Bind dos parâmetros
             $stmt->bindParam(':ano', $this->ano, PDO::PARAM_INT);
             $stmt->bindParam(':quilometragem', $this->quilometragem, PDO::PARAM_INT);
             $stmt->bindParam(':valor', $this->valor, PDO::PARAM_STR);
@@ -119,13 +119,13 @@ class Veiculo extends BaseModel {
             $stmt->bindParam(':ID_modelo', $this->idModelo, PDO::PARAM_INT);
             $stmt->bindParam(':ID_cor', $this->idCor, PDO::PARAM_INT);
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-
+    
             return $stmt->execute();
         } catch (PDOException $e) {
             error_log('Erro ao atualizar veículo: ' . $e->getMessage());
             return false;
         }
-    }
+    }    
 
     // Método para buscar todos os veículos
     public static function getAll() {
@@ -170,17 +170,80 @@ class Veiculo extends BaseModel {
         }
     }
     
-
-    // Método para deletar um veículo pelo ID
     public static function deleteById($id) {
         try {
             $pdo = Database::getConnection();
+    
+            // Excluir todas as ocorrências relacionadas ao veículo
+            $stmt = $pdo->prepare("DELETE FROM tbocorrencia WHERE \"ID_veiculo\" = :id");
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+    
+            // Excluir todas as movimentações relacionadas ao veículo
+            $stmt = $pdo->prepare("DELETE FROM tbmovimentacao WHERE \"ID_veiculo\" = :id");
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+    
+            // Agora excluir o veículo da tabela tbveiculo
             $stmt = $pdo->prepare("DELETE FROM tbveiculo WHERE \"ID_veiculo\" = :id");
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    
             return $stmt->execute();
         } catch (PDOException $e) {
             error_log('Erro ao excluir veículo: ' . $e->getMessage());
             return false;
+        }
+    }
+ 
+    public static function getAllFiltered($filtros) {
+        try {
+            $pdo = Database::getConnection();
+            $sql = "SELECT DISTINCT ON (v.\"ID_veiculo\") v.*, m.nome_marca AS marca, mo.nome_modelo AS modelo, img.imagem
+                    FROM tbveiculo v
+                    JOIN tbmarca m ON v.\"ID_marca\" = m.\"ID_marca\"
+                    JOIN tbmodelo mo ON v.\"ID_modelo\" = mo.\"ID_modelo\"
+                    LEFT JOIN tbveiculoimagem img ON v.\"ID_veiculo\" = img.\"ID_veiculo\"
+                    WHERE 1=1"; // Filtros dinâmicos
+
+            $params = [];
+
+            // Aplicar filtro de marca se existir
+            if (!empty($filtros['marca'])) {
+                $sql .= " AND v.\"ID_marca\" = :marca";
+                $params[':marca'] = $filtros['marca'];
+            }
+
+            // Aplicar filtro de modelo se existir
+            if (!empty($filtros['modelo'])) {
+                $sql .= " AND v.\"ID_modelo\" = :modelo";
+                $params[':modelo'] = $filtros['modelo'];
+            }
+
+            // Aplicar filtro de ano considerando apenas os primeiros 4 dígitos
+            if (!empty($filtros['ano'])) {
+                $sql .= " AND SUBSTRING(v.ano, 1, 4) = :ano";
+                $params[':ano'] = $filtros['ano'];
+            }
+
+            // Aplicar filtro de preço mínimo
+            if (!empty($filtros['preco_min'])) {
+                $sql .= " AND v.valor >= :preco_min";
+                $params[':preco_min'] = $filtros['preco_min'];
+            }
+
+            // Aplicar filtro de preço máximo
+            if (!empty($filtros['preco_max'])) {
+                $sql .= " AND v.valor <= :preco_max";
+                $params[':preco_max'] = $filtros['preco_max'];
+            }
+
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute($params);
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('Erro ao buscar veículos filtrados: ' . $e->getMessage());
+            return [];
         }
     }
     
