@@ -1,25 +1,25 @@
-<!-- marcaList.php -->
 <?php include __DIR__ . '/../layout/header.php'; ?> <!-- Inclui o cabeçalho padrão -->
 
 <div class="main-content">
     <div class="container">
         <h1>Consulta de Marcas</h1>
-        <a href="?page=marca&action=incluir" class="btn btn-success">Incluir Marca</a> <!-- Botão de inclusão -->
+        <div class="d-flex justify-content-start mb-3">
+            <a href="?page=marca&action=incluir" class="btn btn-success">Incluir Marca</a> <!-- Botão de inclusão -->
+        </div>
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Nome da Marca</th>
-                    <th>Ações</th>
+                    <th class="text-end">Ações</th> <!-- Alinha as ações à direita -->
                 </tr>
             </thead>
             <tbody>
                 <?php if (!empty($marcas)): ?>
                     <?php foreach ($marcas as $marca): ?>
                         <tr>
-                            <td><?= htmlspecialchars($marca['ID_marca']); ?></td>
+                            <!-- O ID não é exibido na tela, mas ainda é usado nas ações -->
                             <td><?= htmlspecialchars($marca['nome_marca']); ?></td>
-                            <td>
+                            <td class="text-end"> <!-- Alinha as ações à direita -->
                                 <!-- Botão de Alterar -->
                                 <a href="?page=marca&action=alterar&id=<?= $marca['ID_marca']; ?>" class="btn btn-warning btn-sm">Alterar</a>
                                 <!-- Botão de Excluir -->
@@ -29,7 +29,7 @@
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="3">Nenhuma marca encontrada.</td>
+                        <td colspan="2">Nenhuma marca encontrada.</td> <!-- Colspan ajustado para duas colunas -->
                     </tr>
                 <?php endif; ?>
             </tbody>

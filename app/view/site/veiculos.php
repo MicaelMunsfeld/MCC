@@ -77,7 +77,7 @@ include __DIR__ . '/../site/header.php';
                                 <strong>Câmbio:</strong> <?= htmlspecialchars($veiculo['cambio']); ?><br>
                                 <strong>Combustível:</strong> <?= htmlspecialchars($veiculo['combustivel']); ?>
                             </p>
-                            <a href="detalhes_veiculo.php?id=<?= $veiculo['ID_veiculo']; ?>" class="btn btn-primary">Ver Detalhes</a>
+                            <a href="?page=veiculoDetalhamento&id=<?= $veiculo['ID_veiculo']; ?>" class="btn btn-primary">Ver Detalhes</a>
                         </div>
                     </div>
                 </div>
@@ -86,6 +86,31 @@ include __DIR__ . '/../site/header.php';
             <p class="text-center">Nenhum veículo encontrado.</p>
         <?php endif; ?>
     </div>
+
+    <!-- Paginação -->
+    <?php if ($totalPages > 1): ?>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-end">
+                <?php if ($paginaAtual > 1): ?>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<?= $paginaAtual - 1; ?>">Anterior</a>
+                    </li>
+                <?php endif; ?>
+
+                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                    <li class="page-item <?= $i == $paginaAtual ? 'active' : ''; ?>">
+                        <a class="page-link" href="?page=<?= $i; ?>"><?= $i; ?></a>
+                    </li>
+                <?php endfor; ?>
+
+                <?php if ($paginaAtual < $totalPages): ?>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<?= $paginaAtual + 1; ?>">Próximo</a>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        </nav>
+    <?php endif; ?>
 </div>
 
 <?php

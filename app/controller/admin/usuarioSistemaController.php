@@ -16,14 +16,14 @@ class UsuarioSistemaController {
         include __DIR__ . '/../../view/admin/usuarioSistemaCadastro.php'; 
     }
 
-    // Função para salvar os dados de acesso do usuário
+    // Função para salvar ou atualizar os dados de acesso do usuário
     public function salvar() {
         // Captura os dados do formulário
         $this->usuarioSistema->idUsuario = $_POST['ID_usuario'];
-        $this->usuarioSistema->senha = password_hash($_POST['senha'], PASSWORD_BCRYPT); // Cria o hash da senha para segurança
+        $this->usuarioSistema->senha = md5($_POST['senha']); // Cria o hash da senha para segurança
 
-        // Tenta salvar os dados no banco de dados
-        if ($this->usuarioSistema->cadastrar()) {
+        // Salvar ou atualizar senha
+        if ($this->usuarioSistema->salvar()) {
             header('Location: ?page=usuarioList&status=sucesso');
         } else {
             header('Location: ?page=usuarioSistema&action=cadastro&id=' . $this->usuarioSistema->idUsuario . '&status=erro');
@@ -43,20 +43,53 @@ class UsuarioSistemaController {
     }
 
     // Função para autenticar o usuário
-    // public function autenticar() {
-    //     // Captura os dados do formulário de login
-    //     $email = $_POST['email'];
-    //     $senha = $_POST['senha'];
+    public function autenticar() {
+        // Captura os dados do formulário de login
+        $nomeCompleto = $_POST['nomeCompleto'] ?? '';
+        $senha = $_POST['senha'] ?? '';
 
-    //     // Verifica se o usuário existe e a senha está correta
-    //     $usuario = $this->usuarioSistema->autenticar($email, $senha);
-    //     if ($usuario) {
-    //         // Autenticação bem-sucedida, redireciona para a home ou outra página segura
-    //         header('Location: ?page=home&status=login_sucesso');
-    //     } else {
-    //         // Falha na autenticação, redireciona de volta para o login com mensagem de erro
-    //         header('Location: ?page=login&status=login_erro');
-    //     }
-    // }
+        // Separar o nome e sobrenome
+        $partesNome = explode(' ', $nomeCompleto);
+        $nome = $partesNome[0] ?? '';
+        $sobrenome = isset($partesNome[1]) ? $partesNome[1] : '';
+
+        // Buscar o usuário pelo nome e sobrenome
+        $usuario = Usuario::findByNomeSobrenome($nome, $sobrenome);
+
+        if ($usuario) {
+            // Verificar a senha
+            if (UsuarioSistema::verificarSenha($usuario['ID_usuario'], $senha)) {
+                // Login bem-sucedido
+                echo "<script>
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Login bem-sucedido!',
+                        text: 'Bem-vindo, {$nomeCompleto}!',
+                        showConfirmButton: false,
+                        timer: 2000
+                    }).then(() => {
+                        window.location.href = 'index.php?page=inicio';
+                    });
+                </script>";
+            } else {
+                // Senha incorreta
+                echo "<script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro!',
+                        text: 'Senha incorreta!',
+                    });
+                </script>";
+            }
+        } else {
+            // Usuário não encontrado
+            echo "<script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro!',
+                    text: 'Usuário não encontrado!',
+                });
+            </script>";
+        }
+    }
 }
-?>

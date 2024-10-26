@@ -15,6 +15,8 @@ require_once __DIR__ . '/../app/controller/admin/loginController.php';
 require_once __DIR__ . '/../app/controller/site/contatoControllerSite.php';
 require_once __DIR__ . '/../app/controller/admin/contatoController.php';
 require_once __DIR__ . '/../app/controller/admin/SobreController.php';
+require_once __DIR__ . '/../app/controller/site/veiculoDetalhamentoControllerSite.php';
+require_once __DIR__ . '/../app/controller/site/VeiculoControllerSite.php';
 
 // Roteamento simples para decidir qual controlador chamar
 $page = isset($_GET['page']) ? $_GET['page'] : 'home';
@@ -238,6 +240,10 @@ switch ($page) {
         $controller = new SiteController();
         $controller->veiculos(); 
         break;
+    case 'veiculoDetalhamento':
+        $controller = new VeiculoControllerSite(); // Certifique-se de que o controller correto está sendo chamado
+        $controller->detalhamento(); // Função que exibe o detalhamento do veículo
+        break;        
     case 'sobre':
         $controller = new SiteController();
         $controller->sobre(); 

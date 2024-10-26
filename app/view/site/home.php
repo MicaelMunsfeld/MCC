@@ -1,11 +1,11 @@
 <?php
-// Inclua o header com o Bootstrap e a barra de navegação
+include $_SERVER['DOCUMENT_ROOT'] . '/MCC/public/dispositivoMovel.php';
 include __DIR__ . '/../site/header.php';
 ?>
 <link href="/MCC/public/css/style.css" rel="stylesheet">
 <div class="container-fluid p-0">
     <div class="banner">
-        <img src="/MCC/uploads/banner.png" class="img-fluid w-100 h-50" alt="Banner Sálvio Automóveis">
+        <img src="/MCC/uploads/banner.png" class="img-fluid w-100" alt="Banner Sálvio Automóveis" style="height: 500px; object-fit: cover;">
     </div>
 </div>
 
@@ -19,7 +19,10 @@ include __DIR__ . '/../site/header.php';
     <?php
     // Verifique se a variável $veiculos está definida e não está vazia
     if (!empty($veiculos)) {
-        echo '<div class="row">';
+        // Verifica se é mobile e exibe sem "row" se for mobile
+        if (!isMobile()) {
+            echo '<div class="row">';
+        }
         foreach ($veiculos as $veiculo) {
             // Verifique se a imagem está armazenada como binário
             if (!empty($veiculo['imagem'])) {
@@ -31,11 +34,14 @@ include __DIR__ . '/../site/header.php';
                 $imageSrc = '/MCC/public/images/placeholder-car.jpg';
             }
 
+            // Verifica se é mobile
+            $colClass = isMobile() ? 'col-12 mb-4' : 'col-md-4 mb-4';
+
             // Exibe os veículos disponíveis em cards do Bootstrap
             echo '
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="' . $imageSrc . '" class="card-img-top" alt="Imagem do veículo">
+            <div class="' . $colClass . '">
+                <div class="card h-100">
+                    <img src="' . $imageSrc . '" class="card-img-top" alt="Imagem do veículo" style="height: 200px; object-fit: cover;">
                     <div class="card-body">
                         <h5 class="card-title">' . htmlspecialchars($veiculo['marca']) . ' ' . htmlspecialchars($veiculo['modelo']) . '</h5>
                         <p class="card-text">
@@ -45,19 +51,22 @@ include __DIR__ . '/../site/header.php';
                             <strong>Câmbio:</strong> ' . htmlspecialchars($veiculo['cambio']) . '<br>
                             <strong>Combustível:</strong> ' . htmlspecialchars($veiculo['combustivel']) . '
                         </p>
-                        <a href="detalhes_veiculo.php?id=' . htmlspecialchars($veiculo['ID_veiculo']) . '" class="btn btn-primary">Ver Detalhes</a>
+                        <a href="?page=veiculoDetalhamento&id=' . htmlspecialchars($veiculo['ID_veiculo']) . '" class="btn btn-primary w-100">Ver Detalhes</a>
                     </div>
                 </div>
             </div>
             ';
         }
-        echo '</div>';
+        if (!isMobile()) {
+            echo '</div>'; // Fecha a row se não for mobile
+        }
     } else {
         echo "<p>Nenhum veículo disponível no momento.</p>";
     }
     ?>
-    <div class="row mt-5">
-        <div class="col-md-6">
+    
+    <div class="row mt-5 align-items-center">
+        <div class="col-md-8 mb-4 mb-md-0">
             <h2>Sobre Nós</h2>
             <p>
                 A Sálvio Automóveis é uma empresa com mais de 20 anos de experiência no mercado automotivo, localizada em Imbuia, Santa Catarina.
@@ -69,12 +78,10 @@ include __DIR__ . '/../site/header.php';
             </p>
             <a href="?page=sobre" class="btn btn-outline-primary">Saiba Mais</a>
         </div>
-        <div class="col-md-6">
-            <img src="/MCC/uploads/sobre.jpg" class="img-fluid h-70 w-100" alt="Sobre Sálvio Automóveis">
+        <div class="col-md-4">
+            <img src="/MCC/uploads/sobre.jpg" class="img-fluid" alt="Sobre Sálvio Automóveis" style="height: 400px; object-fit: cover;">
         </div>
     </div>
 </div>
 
-<?php
-        include __DIR__ . '/../site/footer.php';
-?>
+<?php include __DIR__ . '/../site/footer.php'; ?>

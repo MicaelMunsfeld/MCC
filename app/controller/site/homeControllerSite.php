@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../../model/veiculo.php';
+require_once __DIR__ . '/../../model/Veiculo.php';
 
 class HomeControllerSite {
 

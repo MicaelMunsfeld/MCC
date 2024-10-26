@@ -195,6 +195,26 @@ class Veiculo extends BaseModel {
         }
     }
  
+    public static function getAllActiveLimited($limit) {
+        try {
+            $pdo = Database::getConnection();
+            $stmt = $pdo->prepare("SELECT v.*, m.nome_marca AS marca, mo.nome_modelo AS modelo, img.imagem
+                                   FROM tbveiculo v
+                                   JOIN tbmarca m ON v.\"ID_marca\" = m.\"ID_marca\"
+                                   JOIN tbmodelo mo ON v.\"ID_modelo\" = mo.\"ID_modelo\"
+                                   LEFT JOIN tbveiculoimagem img ON v.\"ID_veiculo\" = img.\"ID_veiculo\"
+                                   WHERE v.ativo = TRUE
+                                   LIMIT :limit");
+            $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+            $stmt->execute();
+    
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('Erro ao buscar veículos: ' . $e->getMessage());
+            return [];
+        }
+    }      
+
     public static function getAllFiltered($filtros) {
         try {
             $pdo = Database::getConnection();
@@ -246,5 +266,30 @@ class Veiculo extends BaseModel {
             return [];
         }
     }
-    
+ 
+    public static function contarVeiculosAtivos() {
+        $sql = "SELECT COUNT(*) AS total FROM tbveiculo WHERE ativo = TRUE";
+        $pdo = Database::getConnection();
+        $stmt = $pdo->query($sql);        
+        return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+    }
+
+    public static function obterVeiculosPaginados($limitePorPagina, $offset) {
+        $sql = "SELECT v.*, m.nome_marca AS marca, mo.nome_modelo AS modelo, img.imagem
+                FROM tbveiculo v
+                JOIN tbmarca m ON v.\"ID_marca\" = m.\"ID_marca\"
+                JOIN tbmodelo mo ON v.\"ID_modelo\" = mo.\"ID_modelo\"
+                LEFT JOIN tbveiculoimagem img ON v.\"ID_veiculo\" = img.\"ID_veiculo\"
+                WHERE v.ativo = TRUE 
+                LIMIT :limite OFFSET :offset";
+                
+        $pdo = Database::getConnection();
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':limite', $limitePorPagina, PDO::PARAM_INT);
+        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }    
+
 }

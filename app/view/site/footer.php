@@ -14,3 +14,13 @@
 <a href="https://wa.me/5547984111411?text=Olá,%20tenho%20interesse%20em%20mais%20informações." target="_blank" class="whatsapp-link">
     <img src="/MCC/uploads/WhatsAppIcon.png" alt="WhatsApp" style="width:40px;height:40px;">
 </a>
+<script>
+setTimeout(function() {
+    let alert = document.querySelector('.alert');
+    if (alert) {
+        alert.classList.remove('show');
+        alert.classList.add('fade');
+    }
+}, 3000);
+
+</script>

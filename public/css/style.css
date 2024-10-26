@@ -101,7 +101,8 @@ body {
 }
 
 html {
-    font-size: 18px; /* Aumente o valor para ajustar o tamanho geral */
+    /* font-size: 18px; */
+    font-size: 18px;
 }
 
 table {
@@ -123,4 +124,20 @@ button {
 
 .h-70 {
     height: 70% !important;
+}
+
+.carousel-control-prev, 
+.carousel-control-next {
+    background-color: transparent; /* Remove a cor de fundo */
+    border: none; /* Remove as bordas */
+}
+
+.carousel-control-prev-icon, 
+.carousel-control-next-icon {
+    background-color: transparent; /* Se necessário, remova a cor de fundo do ícone */
+    background-image: #000; /* Se quiser remover o ícone padrão */
+}
+
+p {
+    font-size: 20px;
 }

@@ -1,11 +1,10 @@
 <?php include __DIR__ . '/../layout/header.php'; ?>
 
-<div class="container mt-5">
+<div class="container">
+    <h2>Manutenção das Informações sobre a Empresa</h2>
     <fieldset>
-        <legend>Manutenção das Informações sobre a Empresa</legend>
         <form action="?page=sobreEmpresa&action=salvar" method="post">
             <div class="mb-3">
-                <label for="conteudo" class="form-label">Conteúdo</label>
                 <textarea name="conteudo" id="conteudo" class="form-control" rows="10">
                     <?= htmlspecialchars($sobre['conteudo'] ?? '') ?>
                 </textarea>
