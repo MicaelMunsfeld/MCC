@@ -17,7 +17,7 @@ if ($idVeiculo) {
         if (empty($imagensVeiculo)) {
             $imagensVeiculo[] = ['imagem' => '/MCC/public/images/placeholder-car.jpg'];
         } else {
-            // Se a função retornar um array de binários, converta-os para base64
+            // Converte imagens binárias para base64
             foreach ($imagensVeiculo as $key => $imagem) {
                 if (!empty($imagem['imagem'])) {
                     $imageData = stream_get_contents($imagem['imagem']);
@@ -65,6 +65,7 @@ if ($idVeiculo) {
                     <p><strong>Placa:</strong> <?= substr($veiculo['placa'], 0, 3) . '***' . substr($veiculo['placa'], -1); ?></p>
                     <p><strong>Quilometragem:</strong> <?= number_format($veiculo['quilometragem'], 0, ',', '.'); ?> km</p>
                     <p><strong>Valor:</strong> R$ <?= number_format($veiculo['valor'], 2, ',', '.'); ?></p>
+                    <p><strong>Valor FIPE:</strong> R$ <span id="valorFipe">Carregando...</span></p> <!-- Campo de valor FIPE -->
                     <p><strong>Câmbio:</strong> <?= htmlspecialchars($veiculo['cambio']); ?></p>
                     <p><strong>Combustível:</strong> <?= htmlspecialchars($veiculo['combustivel']); ?></p>
                 </div>
@@ -84,7 +85,6 @@ if ($idVeiculo) {
                             <?php 
                             $acessorios = explode(',', $veiculo['acessorios']);
                             foreach ($acessorios as $acessorio):
-                                // Verifica se o primeiro caractere é uma letra maiúscula
                                 if (ctype_upper(substr(trim($acessorio), 0, 1))): ?>
                                     <tr>
                                         <td><i class="fa fa-check-circle text-success"></i> <?= htmlspecialchars(trim($acessorio)); ?></td>
@@ -99,6 +99,27 @@ if ($idVeiculo) {
                 <a href="?page=veiculos" class="btn btn-outline-primary w-100 mt-3 mb-3">Voltar para a Lista de Veículos</a>
             </div>
         </div>
+
+        <!-- Script para chamar a API da FIPE automaticamente -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const marca = "<?= $veiculo['marca']; ?>";
+                const modelo = "<?= $veiculo['modelo']; ?>";
+                const ano = "<?= $veiculo['ano']; ?>";
+                
+                // Consulta automática na FIPE API
+                fetch(`https://parallelum.com.br/fipe/api/v1/carros/marcas/${marca}/modelos/${modelo}/anos/${ano}-1`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const valorFipe = data.Valor;
+                        document.getElementById('valorFipe').innerText = valorFipe;
+                    })
+                    .catch(error => {
+                        console.error('Erro ao consultar a FIPE:', error);
+                        document.getElementById('valorFipe').innerText = 'Erro ao consultar';
+                    });
+            });
+        </script>
 
         <?php
     } else {

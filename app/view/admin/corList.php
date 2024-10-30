@@ -1,6 +1,6 @@
 <?php include __DIR__ . '/../layout/header.php'; ?>
 
-<div class="container mt-5">
+<div class="container">
     <h2 class="mb-4">Listagem de Cores</h2>
 
     <!-- Botões de Ações -->
@@ -12,20 +12,19 @@
     <table class="table table-striped" id="tabelaCores">
         <thead>
             <tr>
-                <th>ID</th>
                 <th>Nome da Cor</th>
-                <th>Ações</th> <!-- Coluna para ações -->
+                <th class="text-end">Ações</th> <!-- Coluna para ações alinhada à direita -->
             </tr>
         </thead>
         <tbody>
             <?php if (!empty($cores)): ?>
                 <?php foreach ($cores as $cor): ?>
                     <tr>
-                        <td><?= htmlspecialchars($cor['ID_cor']); ?></td>
+                        <!-- O ID não é exibido na tela, mas é usado nas ações -->
                         <td><?= htmlspecialchars($cor['nome_cor']); ?></td>
-                        <td>
+                        <td class="text-end">
                             <!-- Botão para chamar a tela de alteração -->
-                            <button class="btn btn-primary me-2 btn-sm" onclick="window.location.href='?page=cor&action=alterar&id=<?= $cor['ID_cor']; ?>'">Alterar</button>
+                            <button class="btn btn-warning btn-sm" onclick="window.location.href='?page=cor&action=alterar&id=<?= $cor['ID_cor']; ?>'">Alterar</button>
                             <!-- Botão para exclusão -->
                             <button class="btn btn-danger btn-sm" onclick="if(confirm('Deseja realmente excluir esta cor?')) { window.location.href='?page=cor&action=excluir&id=<?= $cor['ID_cor']; ?>'; }">Excluir</button>
                         </td>
@@ -33,7 +32,7 @@
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="3" class="text-center">Nenhuma cor cadastrada.</td>
+                    <td colspan="2" class="text-center">Nenhuma cor cadastrada.</td> <!-- Ajustado para duas colunas -->
                 </tr>
             <?php endif; ?>
         </tbody>

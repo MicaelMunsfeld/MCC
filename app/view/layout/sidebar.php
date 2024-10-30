@@ -78,25 +78,25 @@ include $_SERVER['DOCUMENT_ROOT'] . '/MCC/public/dispositivoMovel.php';
                 <a href="?page=inicio" class="nav-link <?php echo ($current_page == 'inicio') ? 'active' : ''; ?>" aria-current="page">Página Inicial</a>
             </li>
             <li>
-                <a href="?page=veiculoList" class="nav-link <?php echo ($current_page == 'veiculoList') ? 'active' : ''; ?>">Veículos</a>
+                <a href="?page=veiculoList" class="nav-link <?php echo ($current_page == 'veiculoList') ? 'active' : ''; ?>">Veículo</a>
             </li>
             <li class="nav-item">
                 <a href="?page=marca" class="nav-link <?php echo ($current_page == 'marca') ? 'active' : ''; ?>">Marca</a>
             </li>
             <li class="nav-item">
-                <a href="?page=modelo" class="nav-link <?php echo ($current_page == 'modelo') ? 'active' : ''; ?>">Modelos</a>
+                <a href="?page=modelo" class="nav-link <?php echo ($current_page == 'modelo') ? 'active' : ''; ?>">Modelo</a>
             </li>
             <li class="nav-item">
-                <a href="?page=cor" class="nav-link <?php echo ($current_page == 'cor') ? 'active' : ''; ?>">Cores</a>
+                <a href="?page=cor" class="nav-link <?php echo ($current_page == 'cor') ? 'active' : ''; ?>">Cor</a>
             </li>
             <li>
-                <a href="?page=ocorrencia" class="nav-link <?php echo ($current_page == 'ocorrencia') ? 'active' : ''; ?>">Ocorrências</a>
+                <a href="?page=ocorrencia" class="nav-link <?php echo ($current_page == 'ocorrencia') ? 'active' : ''; ?>">Ocorrência</a>
             </li>
             <li>
-                <a href="?page=usuarioList" class="nav-link <?php echo ($current_page == 'usuarioList') ? 'active' : ''; ?>">Usuários</a>
+                <a href="?page=usuarioList" class="nav-link <?php echo ($current_page == 'usuarioList') ? 'active' : ''; ?>">Usuário</a>
             </li>
             <li>
-                <a href="?page=movimentacao" class="nav-link <?php echo ($current_page == 'movimentacao') ? 'active' : ''; ?>">Movimentações</a>
+                <a href="?page=movimentacao" class="nav-link <?php echo ($current_page == 'movimentacao') ? 'active' : ''; ?>">Movimentação</a>
             </li>
             <li>
                 <a href="?page=sobreEmpresa" class="nav-link <?php echo ($current_page == 'sobreEmpresa') ? 'active' : ''; ?>">Sobre</a>
