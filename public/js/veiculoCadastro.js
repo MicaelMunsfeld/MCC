@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(response => response.json())
                 .then(marcasFipe => {
                     const marcaFipe = marcasFipe.find(marca => marca.nome.toLowerCase() === fipeMarcaNome.toLowerCase());
-
+                    
                     if (marcaFipe) {
                         // Busca os modelos da marca selecionada para obter o código correto do modelo
                         fetch(`https://parallelum.com.br/fipe/api/v1/${tipoCodigo}/marcas/${marcaFipe.codigo}/modelos`)

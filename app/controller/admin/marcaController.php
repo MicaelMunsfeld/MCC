@@ -28,7 +28,6 @@ class MarcaController {
     public function alterar() {
         $id = $_GET['id']; // Obtém o ID da marca a ser editada
         $marca = Marca::find($id); // Busca a marca pelo ID
-
         // Verifica se a marca foi encontrada antes de incluir a view
         if ($marca) {
             include realpath(__DIR__ . '/../../view/admin/marcaEditar.php'); // Inclui a view de edição de marcas

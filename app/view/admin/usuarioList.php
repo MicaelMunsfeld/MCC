@@ -30,10 +30,12 @@
                             <td><?= htmlspecialchars($usuario['email']) ?></td>
                             <td><?= htmlspecialchars($usuario['cidade']) ?></td>
                             <td><?= htmlspecialchars($usuario['tipo_usuario']) ?></td>
-                            <td class="d-flex gap-2"> <!-- Estilização semelhante ao da marca -->
+                            <td class="d-flex"> <!-- Estilização semelhante ao da marca -->
                                 <a href="?page=usuario&action=alterar&id=<?= $usuario['ID_usuario'] ?>" class="btn btn-warning btn-sm">Alterar</a>
                                 <a href="?page=usuario&action=excluir&id=<?= $usuario['ID_usuario'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir este usuário?');">Excluir</a>
-                                <a href="?page=login&id=<?= $usuario['ID_usuario'] ?>" class="btn btn-warning btn-sm">Login</a>
+                                <?php if($usuario['tipo_usuario'] == 'lojista'): ?>
+                                    <a href="?page=login&id=<?= $usuario['ID_usuario'] ?>" class="btn btn-warning btn-sm">Login</a>
+                                <?php endif; ?> 
                             </td>
                         </tr>
                     <?php endforeach; ?>

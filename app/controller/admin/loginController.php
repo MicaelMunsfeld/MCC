@@ -66,7 +66,7 @@ class LoginController {
             }
         } else {
             // Se não houver POST, exibe a tela de login normalmente
-            include __DIR__ . '/../../view/site/login.php';
+            include __DIR__ . '/../../view/admin/usuarioSistemaCadastro.php';
         }
     }
 }

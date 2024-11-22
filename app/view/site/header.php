@@ -1,59 +1,95 @@
 <?php
+// Inclui o arquivo de verificação de dispositivo móvel
+include_once $_SERVER['DOCUMENT_ROOT'] . '/MCC/public/dispositivoMovel.php';
+
 // Captura a página atual da URL
 $current_page = $_GET['page'] ?? 'home'; // Define 'home' como padrão se 'page' não estiver definido
 ?>
 
-<!-- Bootstrap CSS -->
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
-<link href="/MCC/public/css/style.css" rel="stylesheet">
-<!-- Optional JavaScript -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCC - Munsfeld Car Control - Website</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="/MCC/public/css/style.css" rel="stylesheet">
 
-<div class="container-fluid">
-    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-        <a href="?page=home" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
-            <strong><span class="fs-4">Sálvio Automóveis</span></strong>
-        </a>
+    <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-light bg-light fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">MCC Website</a>
 
-        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="?page=home" class="nav-link px-2 <?php echo ($current_page == 'home') ? 'link-secondary active' : 'link-dark'; ?>">Página Inicial</a></li>
-            <li><a href="?page=sobre" class="nav-link px-2 <?php echo ($current_page == 'sobre') ? 'link-secondary active' : 'link-dark'; ?>">Sobre</a></li>
-            <li><a href="?page=veiculos" class="nav-link px-2 <?php echo ($current_page == 'veiculos') ? 'link-secondary active' : 'link-dark'; ?>">Veículos</a></li>
-            <li><a href="?page=contato" class="nav-link px-2 <?php echo ($current_page == 'contato') ? 'link-secondary active' : 'link-dark'; ?>">Contato</a></li>
-        </ul>
-
-        <div class="col-md-3 text-end">
-            <!--<a href="?page=login" class="btn btn-outline-primary me-2">Login</a>-->
-            <a href="#" class="btn btn-outline-primary me-2" data-toggle="modal" data-target="#loginModal">Login</a>
+            <?php if (isMobile()): ?>
+                <!-- Navbar Offcanvas para dispositivos móveis -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a href="?page=home" class="nav-link">Página Inicial</a></li>
+                            <li class="nav-item"><a href="?page=veiculos" class="nav-link">Veículos</a></li>
+                            <li class="nav-item"><a href="?page=sobre" class="nav-link">Sobre</a></li>
+                            <li class="nav-item"><a href="?page=contato" class="nav-link">Contato</a></li>
+                            <li class="nav-item"><a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a></li>
+                        </ul>
+                    </div>
+                </div>
+            <?php else: ?>
+                <!-- Navbar padrão para dispositivos maiores -->
+                <ul class="nav">
+                    <li class="nav-item"><a href="?page=home" class="nav-link <?php echo ($current_page == 'home') ? 'active' : ''; ?>">Página Inicial</a></li>
+                    <li class="nav-item"><a href="?page=veiculos" class="nav-link <?php echo ($current_page == 'veiculos') ? 'active' : ''; ?>">Veículos</a></li>
+                    <li class="nav-item"><a href="?page=sobre" class="nav-link <?php echo ($current_page == 'sobre') ? 'active' : ''; ?>">Sobre</a></li>
+                    <li class="nav-item"><a href="?page=contato" class="nav-link <?php echo ($current_page == 'contato') ? 'active' : ''; ?>">Contato</a></li>
+                </ul>
+                <a href="#" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
+            <?php endif; ?>
         </div>
-    </header>
-</div>
-<!-- Modal de Login -->
-<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="loginModalLabel">Login</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form method="POST" action="index.php?page=login">
-          <div class="form-group">
-            <label for="nomeCompleto">Usuário</label>
-            <input type="text" class="form-control" id="nomeCompleto" name="nomeCompleto" required>
-          </div>
-          <div class="form-group">
-            <label for="senha">Senha</label>
-            <input type="password" class="form-control" id="senha" name="senha" required minlength="5">
-          </div>
-          <button type="submit" class="btn btn-primary">Entrar</button>
-        </form>
-      </div>
+    </nav>
+
+    <div class="container-fluid" style="padding-top: 70px;">
+        <!-- Conteúdo principal -->
     </div>
-  </div>
-</div>
+
+    <!-- Modal de Login -->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Login</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="index.php?page=login">
+                        <div class="form-group">
+                            <label for="nomeCompleto">Usuário (Obrigatório)</label>
+                            <input type="text" class="form-control" id="nomeCompleto" name="nomeCompleto" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="senha">Senha (Obrigatório)</label>
+                            <input type="password" class="form-control" id="senha" name="senha" required minlength="5">
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 mt-2">Entrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -48,36 +48,68 @@ class Veiculo extends BaseModel {
     public function cadastrar() {
         try {
             $pdo = Database::getConnection();
-            $stmt = $pdo->prepare("INSERT INTO tbveiculo (
-                    ano, quilometragem, valor, cambio, tipo, combustivel, placa, chassis, ativo, unico_dono, 
-                    \"ID_antigo_dono\", acessorios, observacoes, \"ID_marca\", \"ID_modelo\", \"ID_cor\")
-                VALUES (:ano, :quilometragem, :valor, :cambio, :tipo, :combustivel, :placa, :chassis, :ativo, :unico_dono, 
-                    :ID_antigo_dono, :acessorios, :observacoes, :ID_marca, :ID_modelo, :ID_cor)");
-            
-            // Bind the parameters
-            $stmt->bindParam(':ano', $this->ano, PDO::PARAM_INT);
-            $stmt->bindParam(':quilometragem', $this->quilometragem, PDO::PARAM_INT);
-            $stmt->bindParam(':valor', $this->valor, PDO::PARAM_STR);
-            $stmt->bindParam(':cambio', $this->cambio, PDO::PARAM_STR);
-            $stmt->bindParam(':tipo', $this->tipo, PDO::PARAM_STR);
-            $stmt->bindParam(':combustivel', $this->combustivel, PDO::PARAM_STR);
-            $stmt->bindParam(':placa', $this->placa, PDO::PARAM_STR);
-            $stmt->bindParam(':chassis', $this->chassis, PDO::PARAM_STR);
+            $stmt = $pdo->prepare("
+                INSERT INTO tbveiculo (
+                    ano, 
+                    quilometragem, 
+                    valor, 
+                    cambio, 
+                    tipo, 
+                    combustivel, 
+                    placa, 
+                    chassis, 
+                    ativo, 
+                    unico_dono, 
+                    \"ID_antigo_dono\", 
+                    acessorios, 
+                    observacoes, 
+                    \"ID_marca\", 
+                    \"ID_modelo\", 
+                    \"ID_cor\"
+                ) VALUES (
+                    :ano, 
+                    :quilometragem, 
+                    :valor, 
+                    :cambio, 
+                    :tipo, 
+                    :combustivel, 
+                    :placa, 
+                    :chassis, 
+                    :ativo, 
+                    :unico_dono, 
+                    :ID_antigo_dono, 
+                    :acessorios, 
+                    :observacoes, 
+                    :ID_marca, 
+                    :ID_modelo, 
+                    :ID_cor
+                ) RETURNING \"ID_veiculo\"
+            ");
+            $stmt->bindParam(':ano', $this->ano);
+            $stmt->bindParam(':quilometragem', $this->quilometragem);
+            $stmt->bindParam(':valor', $this->valor);
+            $stmt->bindParam(':cambio', $this->cambio);
+            $stmt->bindParam(':tipo', $this->tipo);
+            $stmt->bindParam(':combustivel', $this->combustivel);
+            $stmt->bindParam(':placa', $this->placa);
+            $stmt->bindParam(':chassis', $this->chassis);
             $stmt->bindParam(':ativo', $this->ativo, PDO::PARAM_BOOL);
             $stmt->bindParam(':unico_dono', $this->unicoDono, PDO::PARAM_BOOL);
             $stmt->bindParam(':ID_antigo_dono', $this->idAntigoDono, PDO::PARAM_INT);
-            $stmt->bindParam(':acessorios', $this->acessorios, PDO::PARAM_STR);
-            $stmt->bindParam(':observacoes', $this->observacoes, PDO::PARAM_STR);
+            $stmt->bindParam(':acessorios', $this->acessorios);
+            $stmt->bindParam(':observacoes', $this->observacoes);
             $stmt->bindParam(':ID_marca', $this->idMarca, PDO::PARAM_INT);
             $stmt->bindParam(':ID_modelo', $this->idModelo, PDO::PARAM_INT);
             $stmt->bindParam(':ID_cor', $this->idCor, PDO::PARAM_INT);
-            
-            return $stmt->execute();
+    
+            $stmt->execute();
+    
+            return $stmt->fetchColumn(); // Retorna o ID do novo veículo
         } catch (PDOException $e) {
             error_log('Erro ao cadastrar veículo: ' . $e->getMessage());
             return false;
         }
-    }
+    }      
     
     public function update($id) {
         try {

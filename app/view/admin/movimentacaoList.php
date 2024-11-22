@@ -1,6 +1,6 @@
 <?php include __DIR__ . '/../layout/header.php'; ?>
 
-<div class="container mt-5">
+<div class="container">
     <h2>Lista de Movimentações</h2>
     <a href="?page=movimentacao&action=incluir" class="btn btn-success mb-3">Registrar Movimentação</a>
     <table class="table table-hover">
@@ -32,3 +32,25 @@
 </div>
 
 <?php include __DIR__ . '/../layout/footer.php'; ?>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get('status');
+
+    if (status === 'sucesso') {
+        Swal.fire({
+            icon: 'success',
+            title: 'Sucesso',
+            text: 'Movimentação cadastrada com sucesso!',
+            confirmButtonText: 'OK'
+        });
+    } else if (status === 'erroCadastro') {
+        Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text: 'Houve um erro ao cadastrar a movimentação. Tente novamente.',
+            confirmButtonText: 'OK'
+        });
+    }
+</script>

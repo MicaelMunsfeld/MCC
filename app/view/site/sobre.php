@@ -13,7 +13,7 @@
         </div>
 
         <!-- Coluna para a imagem -->
-        <div class="col-md-6 d-flex align-items-center justify-content-center">
+        <div class="col-md-6 align-items-center justify-content-center">
             <img src="/MCC/uploads/sobre.jpg" class="img-fluid"  alt="Imagem Sobre a Empresa">
         </div>
     </div>

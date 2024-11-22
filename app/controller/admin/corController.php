@@ -20,7 +20,7 @@ class CorController {
         $cor = new Cor();
         $cor->nomeCor = $_POST['nome_cor'];
         $cor->cadastrar();
-        header('Location: ?page=cor&status=sucesso');
+        header('Location: ?page=cor');
     }
 
     // Exibir o formulário de edição de cor
@@ -40,7 +40,7 @@ class CorController {
         $cor = new Cor();
         $cor->nomeCor = $_POST['nome_cor']; // Atualiza o nome da cor
         if ($cor->update($idCor)) {
-            header('Location: ?page=cor&status=atualizado');
+            header('Location: ?page=cor');
         } else {
             header('Location: ?page=cor&status=erroAtualizar');
         }
@@ -52,7 +52,7 @@ class CorController {
         if ($idCor) {
             $excluido = Cor::delete($idCor); // Chama o método de exclusão no modelo
             if ($excluido) {
-                header('Location: ?page=cor&status=excluido'); // Redireciona após exclusão com sucesso
+                header('Location: ?page=cor'); // Redireciona após exclusão com sucesso
             } else {
                 header('Location: ?page=cor&status=erroExcluir'); // Redireciona em caso de falha
             }

@@ -49,7 +49,7 @@ class Cor extends BaseModel {
     public function update($id) {
         try {
             $pdo = Database::getConnection();
-            $stmt = $pdo->prepare("UPDATE tbcor SET nome_cor = :nomeCor WHERE ID_cor = :id");
+            $stmt = $pdo->prepare("UPDATE tbcor SET nome_cor = :nomeCor WHERE \"ID_cor\" = :id");
             $stmt->bindParam(':nomeCor', $this->nomeCor);
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             return $stmt->execute();

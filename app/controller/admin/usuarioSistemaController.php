@@ -24,7 +24,7 @@ class UsuarioSistemaController {
 
         // Salvar ou atualizar senha
         if ($this->usuarioSistema->salvar()) {
-            header('Location: ?page=usuarioList&status=sucesso');
+            header('Location: ?page=usuarioList');
         } else {
             header('Location: ?page=usuarioSistema&action=cadastro&id=' . $this->usuarioSistema->idUsuario . '&status=erro');
         }

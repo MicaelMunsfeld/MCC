@@ -136,8 +136,6 @@ class VeiculoController {
     }
 
     public function salvar() {
-        $id = $_POST['id'] ?? null; // Verifica se o ID existe (para edição)
-        
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Atribuição dos dados do formulário aos atributos do objeto
             $this->veiculo->ano = $_POST['ano'];
@@ -157,31 +155,33 @@ class VeiculoController {
             $this->veiculo->idModelo = $_POST['idModelo'];
             $this->veiculo->idCor = $_POST['idCor'];
     
-            if ($id) {
-                if ($this->veiculo->update($id)) {
-                    $_SESSION['status'] = 'sucesso';
-                    $_SESSION['mensagem'] = 'Veículo atualizado com sucesso!';
-                } else {
-                    $_SESSION['status'] = 'erro';
-                    $_SESSION['mensagem'] = 'Erro ao atualizar o veículo.';
+            // Inserir o veículo e obter o ID gerado
+            $novoId = $this->veiculo->cadastrar();
+            if ($novoId) {
+                // Capturar imagens se foram enviadas
+                if (!empty($_FILES['imagens']['name'][0])) {
+                    $imagens = $_FILES['imagens'];
+                    for ($i = 0; $i < count($imagens['name']); $i++) {
+                        $nomeImagem = $imagens['name'][$i];
+                        $imagemTemp = $imagens['tmp_name'][$i];
+                        $conteudoImagem = file_get_contents($imagemTemp);
+                        ImagemVeiculo::salvarImagem($novoId, $conteudoImagem, $nomeImagem);
+                    }
                 }
+    
+                $_SESSION['status'] = 'sucesso';
+                $_SESSION['mensagem'] = 'Veículo cadastrado com sucesso!';
             } else {
-                if ($this->veiculo->cadastrar()) {
-                    $_SESSION['status'] = 'sucesso';
-                    $_SESSION['mensagem'] = 'Veículo cadastrado com sucesso!';
-                } else {
-                    $_SESSION['status'] = 'erro';
-                    $_SESSION['mensagem'] = 'Erro ao cadastrar o veículo.';
-                }
+                $_SESSION['status'] = 'erro';
+                $_SESSION['mensagem'] = 'Erro ao cadastrar o veículo.';
             }
-            include __DIR__ . '/../../view/admin/veiculoList.php';
+            header('Location: ?page=veiculoList');
         } else {
             header('Location: ?page=veiculoList');
             exit;
         }
-    }
+    }    
     
-
     public function excluir() {
         session_start(); // Inicie a sessão para usar o $_SESSION
         $id = $_GET['id'] ?? null;

@@ -70,7 +70,7 @@ include __DIR__ . '/../site/header.php';
             <p><strong>Telefone:</strong> (47) 3557-1233</p>
             <p><strong>E-mail:</strong> contato@salvioautomoveis.com.br</p>
             <div class="map-responsive">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2099.1200973199957!2d-49.42268609831866!3d-27.49288223231577!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94df81b383b01737%3A0x781120e36c1e4c68!2sImbuia%2C%20SC%2C%2088440-000!5e1!3m2!1spt-BR!2sbr!4v1728174716378!5m2!1spt-BR!2sbr" width="100%" height="75%" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d4198.305544396552!2d-49.4238725244238!3d-27.491168405763712!3m2!1i1024!2i768!4f13.1!5e1!3m2!1spt-BR!2sbr!4v1731856470606!5m2!1spt-BR!2sbr" width="100%" height="850" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
     </div>

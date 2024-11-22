@@ -28,7 +28,7 @@
                                 <strong>Câmbio:</strong> <?= htmlspecialchars($veiculo['cambio']); ?><br>
                                 <strong>Combustível:</strong> <?= htmlspecialchars($veiculo['combustivel']); ?>
                             </p>
-                            <a href="?page=veiculoDetalhes&id=<?= $veiculo['ID_veiculo']; ?>" class="btn btn-primary">Mais detalhes</a>
+                            <a href="?page=veiculo&action=alterar&id=<?= $veiculo['ID_veiculo'] ?>" class="btn btn-primary">Mais detalhes</a>
                         </div>
                     </div>
                 </div>
