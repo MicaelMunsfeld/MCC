@@ -20,17 +20,46 @@ class contatoControllerSite {
             $contato->assunto = $_POST['assunto'];
             $contato->mensagem = $_POST['mensagem'] ?? null;
 
-            if ($contato->salvar()) {
-                $_SESSION['status'] = 'sucesso';
-                $_SESSION['mensagem'] = 'Contato enviado com sucesso!';
+            // Tenta salvar o contato
+            $status = $contato->salvar();
+
+            if ($status) {
+                $mensagem = 'Contato enviado com sucesso!';
+                $tipo = 'success';
+                $titulo = 'Sucesso!';
+                $redirecionamento = '?page=contato';
             } else {
-                $_SESSION['status'] = 'erro';
-                $_SESSION['mensagem'] = 'Erro ao enviar o contato. Tente novamente.';
+                $mensagem = 'Erro ao enviar o contato. Tente novamente.';
+                $tipo = 'error';
+                $titulo = 'Erro!';
+                $redirecionamento = '?page=contato';
             }
-            header('Location: ?page=contato');
+
+            // Gera o HTML para exibir o SweetAlert
+            echo "<!DOCTYPE html>
+            <html lang='pt-BR'>
+            <head>
+                <meta charset='UTF-8'>
+                <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+                <title>{$titulo}</title>
+            </head>
+            <body>
+                <script>
+                    Swal.fire({
+                        icon: '{$tipo}',
+                        title: '{$titulo}',
+                        text: '{$mensagem}',
+                    }).then(() => {
+                        window.location.href = '{$redirecionamento}';
+                    });
+                </script>
+            </body>
+            </html>";
+            exit;
         }
     }
-
+    
     public function visualizar() {
         $id = $_GET['id'] ?? null;
         if ($id) {

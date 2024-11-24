@@ -10,8 +10,8 @@
             <!-- Botão Selecionar Veículo -->
             <div class="mb-3 d-flex">
                 <div class="flex-grow-1 me-3">
-                    <label for="veiculo_info" class="form-label">Veículo</label>
-                    <input type="text" class="form-control" id="veiculo_info" name="veiculo_info" placeholder="Selecione o Veículo" readonly required>
+                    <label for="veiculo_info" class="form-label">Veículo <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="veiculo_info" name="veiculo_info" placeholder="Selecione o Veículo" required>
                     <input type="hidden" id="ID_veiculo" name="ID_veiculo" required>
                 </div>
                 <div class="align-self-end">

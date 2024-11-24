@@ -49,7 +49,7 @@
             <div class="mb-3 d-flex align-items-center">
                 <div class="flex-grow-1 me-3">
                     <label for="veiculo" class="form-label">Veículo <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="veiculo_info" name="veiculo" value="<?= htmlspecialchars($veiculo_nome) ?>" readonly required>
+                    <input type="text" class="form-control" id="veiculo_info" name="veiculo" value="<?= htmlspecialchars($veiculo_nome) ?>" required>
                     <input type="hidden" id="ID_veiculo" name="ID_veiculo" value="<?= htmlspecialchars($ocorrencia['ID_veiculo']) ?>">
                 </div>
                 <div class="align-self-end">
@@ -61,7 +61,7 @@
 
         <div class="d-flex mt-4">
             <button type="submit" class="btn btn-primary w-50">Salvar Alterações</button>
-            <a href="?page=ocorrenciaList" class="btn btn-secondary w-50">Cancelar</a>
+            <a href="?page=ocorrencia" class="btn btn-secondary w-50">Cancelar</a>
         </div>
     </form>
 </div>

@@ -43,8 +43,8 @@ $current_page = $_GET['page'] ?? 'home'; // Define 'home' como padrão se 'page'
                     <div class="offcanvas-body">
                         <ul class="navbar-nav">
                             <li class="nav-item"><a href="?page=home" class="nav-link">Página Inicial</a></li>
-                            <li class="nav-item"><a href="?page=veiculos" class="nav-link">Veículos</a></li>
                             <li class="nav-item"><a href="?page=sobre" class="nav-link">Sobre</a></li>
+                            <li class="nav-item"><a href="?page=veiculos" class="nav-link">Veículos</a></li>
                             <li class="nav-item"><a href="?page=contato" class="nav-link">Contato</a></li>
                             <li class="nav-item"><a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a></li>
                         </ul>
@@ -54,8 +54,8 @@ $current_page = $_GET['page'] ?? 'home'; // Define 'home' como padrão se 'page'
                 <!-- Navbar padrão para dispositivos maiores -->
                 <ul class="nav">
                     <li class="nav-item"><a href="?page=home" class="nav-link <?php echo ($current_page == 'home') ? 'active' : ''; ?>">Página Inicial</a></li>
-                    <li class="nav-item"><a href="?page=veiculos" class="nav-link <?php echo ($current_page == 'veiculos') ? 'active' : ''; ?>">Veículos</a></li>
                     <li class="nav-item"><a href="?page=sobre" class="nav-link <?php echo ($current_page == 'sobre') ? 'active' : ''; ?>">Sobre</a></li>
+                    <li class="nav-item"><a href="?page=veiculos" class="nav-link <?php echo ($current_page == 'veiculos') ? 'active' : ''; ?>">Veículos</a></li>
                     <li class="nav-item"><a href="?page=contato" class="nav-link <?php echo ($current_page == 'contato') ? 'active' : ''; ?>">Contato</a></li>
                 </ul>
                 <a href="#" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>

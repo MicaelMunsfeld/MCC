@@ -112,15 +112,11 @@ class VeiculoController {
     
             // Atualizar veículo
             if ($this->veiculo->update($id)) {
-                $_SESSION['status'] = 'sucesso';
-                $_SESSION['mensagem'] = 'Veículo atualizado com sucesso!';
+                header('Location: ?page=veiculoList&status=sucesso&mensagem=Veículo atualizado com sucesso!');
             } else {
-                $_SESSION['status'] = 'erro';
-                $_SESSION['mensagem'] = 'Erro ao atualizar o veículo.';
+                header('Location: ?page=veiculoList&status=erro&mensagem=Erro ao atualizar o veículo.');
             }
-            header('Location: ?page=veiculoList');
-        } else {
-            header('Location: ?page=veiculoList&status=erro');
+            exit;
         }
     }
     
@@ -134,6 +130,8 @@ class VeiculoController {
         $usuarios = Usuario::getAll(); // Busca todos os usuários
         include __DIR__ . '/../../view/admin/veiculoCadastro.php'; // Inclui a view de cadastro
     }
+
+    
 
     public function salvar() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -168,35 +166,23 @@ class VeiculoController {
                         ImagemVeiculo::salvarImagem($novoId, $conteudoImagem, $nomeImagem);
                     }
                 }
-    
-                $_SESSION['status'] = 'sucesso';
-                $_SESSION['mensagem'] = 'Veículo cadastrado com sucesso!';
+                header('Location: ?page=veiculoList&status=sucesso&mensagem=Veículo cadastrado com sucesso!');
             } else {
-                $_SESSION['status'] = 'erro';
-                $_SESSION['mensagem'] = 'Erro ao cadastrar o veículo.';
+                header('Location: ?page=veiculoList&status=erro&mensagem=Erro ao cadastrar o veículo.');
             }
-            header('Location: ?page=veiculoList');
-        } else {
-            header('Location: ?page=veiculoList');
             exit;
         }
     }    
     
     public function excluir() {
-        session_start(); // Inicie a sessão para usar o $_SESSION
         $id = $_GET['id'] ?? null;
-        
+    
         if ($id && Veiculo::deleteById($id)) {
-            $_SESSION['status'] = 'sucesso'; // Armazena o status de sucesso na sessão
-            $_SESSION['mensagem'] = 'Veículo excluído com sucesso!';
+            header('Location: ?page=veiculoList&status=sucesso&mensagem=Veículo excluído com sucesso!');
         } else {
-            $_SESSION['status'] = 'erro'; // Armazena o status de erro na sessão
-            $_SESSION['mensagem'] = 'Erro ao tentar excluir o veículo.';
+            header('Location: ?page=veiculoList&status=erro&mensagem=Erro ao tentar excluir o veículo.');
         }
-        
-        // Redireciona para a listagem de veículos
-        header('Location: ?page=veiculoList');
         exit;
-    }    
-
+    }
+    
 }

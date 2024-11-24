@@ -11,55 +11,105 @@ class UsuarioSistemaController {
 
     // Função para carregar a tela de cadastro de acesso do usuário
     public function cadastro() {
-        $idUsuario = $_GET['id'] ?? null; // Pega o ID do usuário selecionado na lista
-        // Ajuste o caminho para corresponder à localização real do arquivo
-        include __DIR__ . '/../../view/admin/usuarioSistemaCadastro.php'; 
+        $idUsuario = $_GET['id'] ?? null;
+        include __DIR__ . '/../../view/admin/usuarioSistemaCadastro.php';
     }
 
     // Função para salvar ou atualizar os dados de acesso do usuário
     public function salvar() {
         // Captura os dados do formulário
         $this->usuarioSistema->idUsuario = $_POST['ID_usuario'];
-        $this->usuarioSistema->senha = md5($_POST['senha']); // Cria o hash da senha para segurança
+        $senha = $_POST['senha'];
 
-        // Salvar ou atualizar senha
-        if ($this->usuarioSistema->salvar()) {
-            header('Location: ?page=usuarioList');
-        } else {
-            header('Location: ?page=usuarioSistema&action=cadastro&id=' . $this->usuarioSistema->idUsuario . '&status=erro');
+        // Validação para senha curta
+        if (strlen($senha) < 5) {
+            echo "<!DOCTYPE html>
+            <html lang='pt-BR'>
+            <head>
+                <meta charset='UTF-8'>
+                <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+                <title>Erro</title>
+            </head>
+            <body>
+                <script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro!',
+                        text: 'A senha deve ter no mínimo 5 caracteres!',
+                    }).then(() => {
+                        window.history.back();
+                    });
+                </script>
+            </body>
+            </html>";
+            exit;
         }
-    }
-
-    // Função para carregar a tela de login do usuário
-    public function index() {
-        $idUsuario = $_GET['id'] ?? null; // Pega o ID do usuário selecionado para login
-        if ($idUsuario) {
-            // Se o ID do usuário for fornecido, carrega a tela de login com o usuário selecionado
-            include __DIR__ . '/../../view/admin/usuarioSistemaCadastro.php'; 
-        } else {
-            // Caso contrário, redireciona para a lista de usuários
-            header('Location: ?page=usuarioList');
-        }
+        $this->usuarioSistema->senha = md5($senha); // Cria o hash da senha para segurança
+        try {
+            if ($this->usuarioSistema->salvar()) {
+                echo "<!DOCTYPE html>
+                <html lang='pt-BR'>
+                <head>
+                    <meta charset='UTF-8'>
+                    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                    <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+                    <title>Sucesso</title>
+                </head>
+                <body>
+                    <script>
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Sucesso!',
+                            text: 'Acesso configurado com sucesso!',
+                            showConfirmButton: false,
+                            timer: 2000
+                        }).then(() => {
+                            window.location.href = '?page=usuarioList';
+                        });
+                    </script>
+                </body>
+                </html>";
+            } else {
+                throw new Exception('Erro ao salvar os dados.');
+            }
+        } catch (Exception $e) {
+            echo "<!DOCTYPE html>
+            <html lang='pt-BR'>
+            <head>
+                <meta charset='UTF-8'>
+                <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+                <title>Erro</title>
+            </head>
+            <body>
+                <script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro!',
+                        text: 'Não foi possível configurar o acesso. Tente novamente.',
+                    }).then(() => {
+                        window.history.back();
+                    });
+                </script>
+            </body>
+            </html>";
+        }        
     }
 
     // Função para autenticar o usuário
     public function autenticar() {
-        // Captura os dados do formulário de login
         $nomeCompleto = $_POST['nomeCompleto'] ?? '';
         $senha = $_POST['senha'] ?? '';
 
-        // Separar o nome e sobrenome
         $partesNome = explode(' ', $nomeCompleto);
         $nome = $partesNome[0] ?? '';
         $sobrenome = isset($partesNome[1]) ? $partesNome[1] : '';
 
-        // Buscar o usuário pelo nome e sobrenome
         $usuario = Usuario::findByNomeSobrenome($nome, $sobrenome);
 
         if ($usuario) {
-            // Verificar a senha
             if (UsuarioSistema::verificarSenha($usuario['ID_usuario'], $senha)) {
-                // Login bem-sucedido
                 echo "<script>
                     Swal.fire({
                         icon: 'success',
@@ -72,7 +122,6 @@ class UsuarioSistemaController {
                     });
                 </script>";
             } else {
-                // Senha incorreta
                 echo "<script>
                     Swal.fire({
                         icon: 'error',
@@ -82,7 +131,6 @@ class UsuarioSistemaController {
                 </script>";
             }
         } else {
-            // Usuário não encontrado
             echo "<script>
                 Swal.fire({
                     icon: 'error',
@@ -92,4 +140,5 @@ class UsuarioSistemaController {
             </script>";
         }
     }
+
 }

@@ -324,4 +324,114 @@ class Veiculo extends BaseModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }    
 
+    public static function contarVeiculosFiltrados($filtros) {
+        try {
+            $pdo = Database::getConnection();
+            $sql = "SELECT COUNT(DISTINCT v.\"ID_veiculo\") AS total
+                    FROM tbveiculo v
+                    JOIN tbmarca m ON v.\"ID_marca\" = m.\"ID_marca\"
+                    JOIN tbmodelo mo ON v.\"ID_modelo\" = mo.\"ID_modelo\"
+                    WHERE v.ativo = TRUE"; // Condição base para veículos ativos
+    
+            $params = [];
+    
+            // Aplicar filtro de marca se existir
+            if (!empty($filtros['marca'])) {
+                $sql .= " AND v.\"ID_marca\" = :marca";
+                $params[':marca'] = $filtros['marca'];
+            }
+    
+            // Aplicar filtro de modelo se existir
+            if (!empty($filtros['modelo'])) {
+                $sql .= " AND v.\"ID_modelo\" = :modelo";
+                $params[':modelo'] = $filtros['modelo'];
+            }
+    
+            // Aplicar filtro de ano considerando apenas os primeiros 4 dígitos
+            if (!empty($filtros['ano'])) {
+                $sql .= " AND SUBSTRING(v.ano, 1, 4) = :ano";
+                $params[':ano'] = $filtros['ano'];
+            }
+    
+            // Aplicar filtro de preço mínimo
+            if (!empty($filtros['preco_min'])) {
+                $sql .= " AND v.valor >= :preco_min";
+                $params[':preco_min'] = $filtros['preco_min'];
+            }
+    
+            // Aplicar filtro de preço máximo
+            if (!empty($filtros['preco_max'])) {
+                $sql .= " AND v.valor <= :preco_max";
+                $params[':preco_max'] = $filtros['preco_max'];
+            }
+    
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute($params);
+    
+            return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+        } catch (PDOException $e) {
+            error_log('Erro ao contar veículos filtrados: ' . $e->getMessage());
+            return 0;
+        }
+    }
+    
+    public static function obterVeiculosFiltradosPaginados($filtros, $limite, $offset) {
+        try {
+            $pdo = Database::getConnection();
+            $sql = "SELECT DISTINCT ON (v.\"ID_veiculo\") v.*, m.nome_marca AS marca, mo.nome_modelo AS modelo, img.imagem
+                    FROM tbveiculo v
+                    JOIN tbmarca m ON v.\"ID_marca\" = m.\"ID_marca\"
+                    JOIN tbmodelo mo ON v.\"ID_modelo\" = mo.\"ID_modelo\"
+                    LEFT JOIN tbveiculoimagem img ON v.\"ID_veiculo\" = img.\"ID_veiculo\"
+                    WHERE v.ativo = TRUE"; // Condição base para veículos ativos
+    
+            $params = [];
+    
+            // Aplicar filtro de marca se existir
+            if (!empty($filtros['marca'])) {
+                $sql .= " AND v.\"ID_marca\" = :marca";
+                $params[':marca'] = $filtros['marca'];
+            }
+    
+            // Aplicar filtro de modelo se existir
+            if (!empty($filtros['modelo'])) {
+                $sql .= " AND v.\"ID_modelo\" = :modelo";
+                $params[':modelo'] = $filtros['modelo'];
+            }
+    
+            // Aplicar filtro de ano considerando apenas os primeiros 4 dígitos
+            if (!empty($filtros['ano'])) {
+                $sql .= " AND SUBSTRING(v.ano, 1, 4) = :ano";
+                $params[':ano'] = $filtros['ano'];
+            }
+    
+            // Aplicar filtro de preço mínimo
+            if (!empty($filtros['preco_min'])) {
+                $sql .= " AND v.valor >= :preco_min";
+                $params[':preco_min'] = $filtros['preco_min'];
+            }
+    
+            // Aplicar filtro de preço máximo
+            if (!empty($filtros['preco_max'])) {
+                $sql .= " AND v.valor <= :preco_max";
+                $params[':preco_max'] = $filtros['preco_max'];
+            }
+    
+            $sql .= " LIMIT :limite OFFSET :offset";
+    
+            $stmt = $pdo->prepare($sql);
+            foreach ($params as $key => $value) {
+                $stmt->bindValue($key, $value);
+            }
+            $stmt->bindValue(':limite', $limite, PDO::PARAM_INT);
+            $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+            $stmt->execute();
+    
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('Erro ao buscar veículos filtrados e paginados: ' . $e->getMessage());
+            return [];
+        }
+    }
+
 }

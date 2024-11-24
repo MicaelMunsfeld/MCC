@@ -38,3 +38,52 @@
 </div>
 
 <?php include __DIR__ . '/../layout/footer.php'; ?> <!-- Inclui o rodapé padrão -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get('status');
+
+    if (status === 'sucessoIncluir') {
+        Swal.fire({
+            icon: 'success',
+            title: 'Sucesso',
+            text: 'Marca incluída com sucesso!',
+            confirmButtonText: 'OK'
+        });
+    } else if (status === 'erroIncluir') {
+        Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text: 'Houve um problema ao incluir a marca. Tente novamente.',
+            confirmButtonText: 'OK'
+        });
+    } else if (status === 'sucessoAlterar') {
+        Swal.fire({
+            icon: 'success',
+            title: 'Sucesso',
+            text: 'Marca alterada com sucesso!',
+            confirmButtonText: 'OK'
+        });
+    } else if (status === 'erroAlterar') {
+        Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text: 'Houve um problema ao alterar a marca. Tente novamente.',
+            confirmButtonText: 'OK'
+        });
+    } else if (status === 'sucessoExcluir') {
+        Swal.fire({
+            icon: 'success',
+            title: 'Sucesso',
+            text: 'Marca excluída com sucesso!',
+            confirmButtonText: 'OK'
+        });
+    } else if (status === 'erroExcluir') {
+        Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text: 'Houve um problema ao excluir a marca. Tente novamente.',
+            confirmButtonText: 'OK'
+        });
+    }
+</script>

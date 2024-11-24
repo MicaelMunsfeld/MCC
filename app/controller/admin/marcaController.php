@@ -17,11 +17,15 @@ class MarcaController {
 
     // Método para salvar uma nova marca
     public function salvar() {
-        $marca = new Marca(); // Instancia um novo objeto Marca
-        $marca->nomeMarca = $_POST['nome_marca']; // Define o nome da marca a partir do formulário
-        $marca->tipo = $_POST['tipo']; // Define o tipo da marca a partir do formulário
-        $marca->cadastrar(); // Salva a marca no banco de dados
-        header('Location: ?page=marca'); // Redireciona para a lista de marcas
+        $marca = new Marca();
+        $marca->nomeMarca = $_POST['nome_marca'];
+        $marca->tipo = $_POST['tipo'];
+        
+        if ($marca->cadastrar()) {
+            header('Location: ?page=marca&status=sucessoIncluir');
+        } else {
+            header('Location: ?page=marca&status=erroIncluir');
+        }
     }
 
     // Método para exibir o formulário de edição de uma marca
@@ -38,20 +42,26 @@ class MarcaController {
 
     // Método para atualizar uma marca existente
     public function atualizar() {
-        $id = $_POST['id']; // Obtém o ID da marca a ser atualizada
+        $id = $_POST['id'];
         $marca = new Marca();
-        $marca->nomeMarca = $_POST['nome_marca']; // Define o novo nome da marca
-        $marca->tipo = $_POST['tipo']; // Define o novo tipo da marca
-        $marca->update($id); // Atualiza a marca no banco de dados
-        header('Location: ?page=marca'); // Redireciona para a lista de marcas
+        $marca->nomeMarca = $_POST['nome_marca'];
+        $marca->tipo = $_POST['tipo'];
+        
+        if ($marca->update($id)) {
+            header('Location: ?page=marca&status=sucessoAlterar');
+        } else {
+            header('Location: ?page=marca&status=erroAlterar');
+        }
     }
 
     // Método para excluir uma marca
     public function excluir() {
-        $id = $_GET['id']; // Obtém o ID da marca a ser excluída
-        Marca::delete($id); // Exclui a marca do banco de dados
-        header('Location: ?page=marca'); // Redireciona para a lista de marcas
+        $id = $_GET['id'];
+        if (Marca::delete($id)) {
+            header('Location: ?page=marca&status=sucessoExcluir');
+        } else {
+            header('Location: ?page=marca&status=erroExcluir');
+        }
     }
 
 }
-?>

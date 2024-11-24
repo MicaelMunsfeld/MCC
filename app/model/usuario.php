@@ -83,10 +83,17 @@ class Usuario extends BaseModel {
 
     // Função para excluir um usuário pelo ID
     public static function deleteById($id) {
-        $pdo = Database::getConnection();
-        $stmt = $pdo->prepare("DELETE FROM tbusuario WHERE \"ID_usuario\" = :id");
-        $stmt->execute(['id' => $id]);
+        try {
+            $pdo = Database::getConnection();
+            $stmt = $pdo->prepare("DELETE FROM tbusuario WHERE \"ID_usuario\" = :id");
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            error_log('Erro ao excluir usuário: ' . $e->getMessage());
+            throw $e; // Relança a exceção para o controller tratar
+        }
     }
+    
 
     public static function findByNomeSobrenome($nome, $sobrenome) {
         try {

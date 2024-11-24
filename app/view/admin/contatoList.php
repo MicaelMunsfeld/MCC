@@ -1,8 +1,6 @@
-<?php 
-include __DIR__ . '/../layout/header.php'; 
-?>
+<?php include __DIR__ . '/../layout/header.php'; ?>
 
-<div class="container mt-5">
+<div class="container">
     <h2 class="mb-4">Lista de Contatos</h2>
 
     <?php if (isset($_SESSION['status']) && $_SESSION['status'] === 'sucesso'): ?>
@@ -41,7 +39,7 @@ include __DIR__ . '/../layout/header.php';
                         <td><?= date('d/m/Y H:i', strtotime($contato['data_hora'])) ?></td>
                         <td>
                             <a href="?page=contato&action=visualizar&id=<?= $contato['ID_contato'] ?>" class="btn btn-info btn-sm">Visualizar</a>
-                            <a href="?page=contato&action=excluir&id=<?= $contato['ID_contato'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a>
+                            <a href="?page=contatos&action=excluir&id=<?= $contato['ID_contato'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -54,6 +52,23 @@ include __DIR__ . '/../layout/header.php';
     </table>
 </div>
 
-<?php 
-include __DIR__ . '/../layout/footer.php'; 
-?>
+<?php include __DIR__ . '/../layout/footer.php'; ?>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get('status');
+
+    if (status === 'sucesso') {
+        Swal.fire({
+            icon: 'success',
+            title: 'Sucesso!',
+            text: 'Contato excluído com sucesso!',
+        });
+    } else if (status === 'erro') {
+        Swal.fire({
+            icon: 'error',
+            title: 'Erro!',
+            text: 'Erro ao tentar excluir o contato.',
+        });
+    }
+</script>

@@ -60,7 +60,6 @@ class OcorrenciaController {
         $id = $_GET['id'] ?? null;
     
         if ($id) {
-            // Captura os dados do formulário
             $ocorrencia = new Ocorrencia();
             $ocorrencia->titulo = $_POST['titulo'];
             $ocorrencia->descricao = $_POST['descricao'];
@@ -70,14 +69,13 @@ class OcorrenciaController {
             $ocorrencia->estado = $_POST['estado'];
             $ocorrencia->ID_veiculo = $_POST['ID_veiculo'];
     
-            // Atualiza a ocorrência no banco de dados
             if ($ocorrencia->update($id)) {
-                header('Location: ?page=ocorrencia');
+                header('Location: ?page=ocorrencia&status=sucessoAlterar');
             } else {
-                header('Location: ?page=ocorrencia&status=erroAtualizacao');
+                header('Location: ?page=ocorrencia&status=erroAlterar');
             }
         }
-    }    
+    }       
 
     public function salvar() {
         $ocorrencia = new Ocorrencia();
@@ -88,20 +86,20 @@ class OcorrenciaController {
         $ocorrencia->estado = $_POST['estado'];
         $ocorrencia->cidade = $_POST['cidade'];
         $ocorrencia->endereco = $_POST['endereco'];
-
         if ($ocorrencia->cadastrar()) {
-            header('Location: ?page=ocorrencia');
+            header('Location: ?page=ocorrencia&status=sucessoIncluir');
         } else {
-            header('Location: ?page=ocorrencia&status=erro');
+            header('Location: ?page=ocorrencia&status=erroIncluir');
         }
-    }
+    }    
     
     public function excluir() {
         $id = $_GET['id'] ?? null;
         if ($id && Ocorrencia::deleteById($id)) {
-            header('Location: ?page=ocorrencia');
+            header('Location: ?page=ocorrencia&status=sucessoExcluir');
         } else {
-            header('Location: ?page=ocorrencia&status=erro');
+            header('Location: ?page=ocorrencia&status=erroExcluir');
         }
     }
+    
 }

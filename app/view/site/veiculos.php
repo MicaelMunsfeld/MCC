@@ -8,13 +8,13 @@ include __DIR__ . '/../site/header.php';
     <h1 class="mb-4">Veículos Disponíveis</h1>
 
     <!-- Filtros -->
-    <form method="POST" action="?page=veiculos" class="mb-4">
+    <form method="GET" action="?page=veiculos" class="mb-4">
+        <input type="hidden" name="page" value="veiculos">
         <div class="row">
             <div class="col-md-3">
                 <label for="marca" class="form-label">Marca</label>
                 <select id="marca" name="marca" class="form-control">
                     <option value="">Todas</option>
-                    <!-- Marcas dinâmicas -->
                     <?php foreach ($marcas as $marca): ?>
                         <option value="<?= $marca['ID_marca']; ?>" <?= isset($_GET['marca']) && $_GET['marca'] == $marca['ID_marca'] ? 'selected' : ''; ?>>
                             <?= htmlspecialchars($marca['nome_marca']); ?>
@@ -26,7 +26,6 @@ include __DIR__ . '/../site/header.php';
                 <label for="modelo" class="form-label">Modelo</label>
                 <select id="modelo" name="modelo" class="form-control">
                     <option value="">Todos</option>
-                    <!-- Modelos dinâmicos -->
                     <?php foreach ($modelos as $modelo): ?>
                         <option value="<?= $modelo['ID_modelo']; ?>" <?= isset($_GET['modelo']) && $_GET['modelo'] == $modelo['ID_modelo'] ? 'selected' : ''; ?>>
                             <?= htmlspecialchars($modelo['nome_modelo']); ?>
@@ -59,11 +58,9 @@ include __DIR__ . '/../site/header.php';
                         <?php
                         // Verificar se a imagem está armazenada como binário
                         if (!empty($veiculo['imagem'])) {
-                            // Converte a imagem binária para base64
                             $imageData = stream_get_contents($veiculo['imagem']);
                             $imageSrc = 'data:image/jpeg;base64,' . base64_encode($imageData);
                         } else {
-                            // Caminho para uma imagem padrão (placeholder) caso não haja imagem
                             $imageSrc = '/MCC/public/images/placeholder-car.jpg';
                         }
                         ?>
@@ -93,19 +90,19 @@ include __DIR__ . '/../site/header.php';
             <ul class="pagination justify-content-end">
                 <?php if ($paginaAtual > 1): ?>
                     <li class="page-item">
-                        <a class="page-link" href="?page=<?= $paginaAtual - 1; ?>">Anterior</a>
+                        <a class="page-link" href="?<?= http_build_query(array_merge($_GET, ['pagina' => $paginaAtual - 1])); ?>">Anterior</a>
                     </li>
                 <?php endif; ?>
 
                 <?php for ($i = 1; $i <= $totalPages; $i++): ?>
                     <li class="page-item <?= $i == $paginaAtual ? 'active' : ''; ?>">
-                        <a class="page-link" href="?page=<?= $i; ?>"><?= $i; ?></a>
+                        <a class="page-link" href="?<?= http_build_query(array_merge($_GET, ['pagina' => $i])); ?>"><?= $i; ?></a>
                     </li>
                 <?php endfor; ?>
 
                 <?php if ($paginaAtual < $totalPages): ?>
                     <li class="page-item">
-                        <a class="page-link" href="?page=<?= $paginaAtual + 1; ?>">Próximo</a>
+                        <a class="page-link" href="?<?= http_build_query(array_merge($_GET, ['pagina' => $paginaAtual + 1])); ?>">Próximo</a>
                     </li>
                 <?php endif; ?>
             </ul>

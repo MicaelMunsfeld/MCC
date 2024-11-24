@@ -13,14 +13,41 @@ class SobreController {
     public function salvar() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $conteudo = $_POST['conteudo'] ?? '';
-            if (Sobre::salvarSobre($conteudo)) {
-                $_SESSION['status'] = 'sucesso';
-                $_SESSION['mensagem'] = 'Informações sobre a empresa salvas com sucesso!';
+            $status = Sobre::salvarSobre($conteudo);
+
+            if ($status) {
+                $mensagem = 'Informações sobre a empresa salvas com sucesso!';
+                $tipo = 'success';
+                $titulo = 'Sucesso!';
+                $redirecionamento = '?page=inicio';
             } else {
-                $_SESSION['status'] = 'erro';
-                $_SESSION['mensagem'] = 'Erro ao salvar as informações sobre a empresa.';
+                $mensagem = 'Erro ao salvar as informações sobre a empresa.';
+                $tipo = 'error';
+                $titulo = 'Erro!';
+                $redirecionamento = '?page=inicio';
             }
-            header('Location: ?page=inicio');
+
+            // Gera o HTML para exibir o SweetAlert
+            echo "<!DOCTYPE html>
+            <html lang='pt-BR'>
+            <head>
+                <meta charset='UTF-8'>
+                <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+                <title>{$titulo}</title>
+            </head>
+            <body>
+                <script>
+                    Swal.fire({
+                        icon: '{$tipo}',
+                        title: '{$titulo}',
+                        text: '{$mensagem}',
+                    }).then(() => {
+                        window.location.href = '{$redirecionamento}';
+                    });
+                </script>
+            </body>
+            </html>";
             exit;
         }
     }

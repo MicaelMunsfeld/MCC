@@ -22,8 +22,12 @@ class ModeloController {
         $modelo = new Modelo();
         $modelo->nomeModelo = $_POST['nome_modelo'];
         $modelo->idMarca = $_POST['id_marca'];
-        $modelo->cadastrar();
-        header('Location: ?page=modelo');
+    
+        if ($modelo->cadastrar()) {
+            header('Location: ?page=modelo&status=sucessoIncluir');
+        } else {
+            header('Location: ?page=modelo&status=erroIncluir');
+        }
     }
 
     // Exibir o formulário de edição de modelo
@@ -40,15 +44,22 @@ class ModeloController {
         $modelo = new Modelo();
         $modelo->nomeModelo = $_POST['nome_modelo'];
         $modelo->idMarca = $_POST['id_marca'];
-        $modelo->update($id);
-        header('Location: ?page=modelo');
+    
+        if ($modelo->update($id)) {
+            header('Location: ?page=modelo&status=sucessoAlterar');
+        } else {
+            header('Location: ?page=modelo&status=erroAlterar');
+        }
     }
 
     // Excluir um modelo
     public function excluir() {
         $id = $_GET['id'];
-        Modelo::delete($id);
-        header('Location: ?page=modelo');
+        if (Modelo::delete($id)) {
+            header('Location: ?page=modelo&status=sucessoExcluir');
+        } else {
+            header('Location: ?page=modelo&status=erroExcluir');
+        }
     }
+    
 }
-?>
