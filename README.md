@@ -1,7 +1,7 @@
 # 🚗 MCC: Protótipo de Software Web para Gerenciar Concessionárias de Veículos
 
-[![Artigo Publicado](https://img.shields.io/badge/Artigo-Publicado-green.svg)](https://www.unidavi.edu.br/) 
-[![Status](https://img.shields.io/badge/Status-TCC%20Aprovado-blue.svg)]()
+[![Artigo Publicado](https://img.shields.io/badge/Artigo-Publicado-green.svg)](https://github.com/MicaelMunsfeld/MCC) 
+[![Status](https://img.shields.io/badge/Status-TCC%20Aprovado-blue.svg)](https://github.com/MicaelMunsfeld/MCC)
 
 Sistema desenvolvido como Trabalho de Conclusão de Curso (TCC) de Sistemas de informação e publicado na **Revista Caminhos (Unidavi)**. O objetivo do sistema é facilitar e modernizar a gestão operacional de concessionárias e lojas de veículos (garagens).
 
